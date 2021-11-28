@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -44,8 +44,6 @@ import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-
-const prodImage = require.context('assets/images/e-commerce', true);
 
 // table sort
 function descendingComparator(a, b, orderBy) {
@@ -222,7 +220,7 @@ EnhancedTableToolbar.propTypes = {
 
 // ==============================|| PRODUCT LIST ||============================== //
 
-const ProductList = () => {
+const ProductList = ({initialRows}) => {
     const theme = useTheme();
 
     const [order, setOrder] = useState('asc');
@@ -231,7 +229,7 @@ const ProductList = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState(initialRows);
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -255,16 +253,20 @@ const ProductList = () => {
     const handleSearch = (event) => {
         const newString = event?.target.value;
         setSearch(newString || '');
+        if(newString === ''){
+            setRows(initialRows);
+            return;
+        }
 
         if (newString) {
             const newRows = rows?.filter((row) => {
                 let matches = true;
 
-                const properties = ['name', 'description', 'rating', 'salePrice', 'offerPrice', 'gender'];
+                const properties = ['name', 'description', 'rating', 'salePrice', 'offerPrice', 'inStock'];
                 let containsQuery = false;
 
                 properties.forEach((property) => {
-                    if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
+                    if (row[property]?.toString().toLowerCase().includes(newString.toString().toLowerCase())) {
                         containsQuery = true;
                     }
                 });
@@ -291,7 +293,7 @@ const ProductList = () => {
             const newSelectedId = rows?.map((n) => n.name);
             setSelected(newSelectedId);
             return;
-        }
+        } 
         setSelected([]);
     };
 
@@ -417,12 +419,12 @@ const ProductList = () => {
                                             onClick={(event) => handleClick(event, row.name)}
                                             sx={{ cursor: 'pointer' }}
                                         >
-                                            <Avatar src={row.image && prodImage(`./${row.image}`).default} size="md" variant="rounded" />
+                                            <Avatar src={row.image} size="md" variant="rounded" />
                                         </TableCell>
                                         <TableCell component="th" id={labelId} scope="row" sx={{ cursor: 'pointer' }}>
                                             <Typography
-                                                component={Link}
-                                                to={`/e-commerce/product-details/${row.id}`}
+                                                // component={Link}
+                                                // to={`/e-commerce/product-details/${row.id}`}
                                                 variant="subtitle1"
                                                 sx={{
                                                     color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : 'grey.900',

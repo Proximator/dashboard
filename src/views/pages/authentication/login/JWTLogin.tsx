@@ -31,12 +31,14 @@ import useScriptRef from '@/hooks/useScriptRef';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useRouter } from 'next/router';
 
 // ===============================|| JWT LOGIN ||=============================== //
 
 const JWTLogin = ({ loginProp, ...others }) => {
     const theme = useTheme();
 
+    const router = useRouter();
     // const { login } = useAuth();
     const scriptedRef = useScriptRef();
 
@@ -64,7 +66,8 @@ const JWTLogin = ({ loginProp, ...others }) => {
             })}
             onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                 try {
-                    await login(values.email, values.password);
+                    // await login(values.email, values.password);
+                    router.push('/dashboard');
                     console.log(values.email, values.password);
                     if (scriptedRef.current) {
                         setStatus({ success: true });
