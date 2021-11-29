@@ -15,6 +15,7 @@
         "@emotion/styled": "^11.3.0",
         "@hookform/resolvers": "^2.8.2",
         "@mui/icons-material": "^5.0.4",
+        "@mui/lab": "^5.0.0-alpha.57",
         "@mui/material": "^5.0.4",
         "@mui/styles": "^5.0.1",
         "@mui/system": "^5.0.4",

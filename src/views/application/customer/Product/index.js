@@ -40,31 +40,33 @@ import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 // table data
-function createData(id, name, category, price, date, qty) {
-    return { id, name, category, price, date, qty };
+function createData(date, id, points, description, expirationDate, discount, gender, status) {
+    return { date, id, points, description, expirationDate, discount, gender, status };
 }
 
 const rowsInitial = [
-    createData('790841', 'Samsung TV 32” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('790842', 'Iphone 11 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('798699', 'Samsung TV 34” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('790752', 'Iphone 12 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('790955', 'Samsung TV 36” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('790785', 'Iphone 13 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('800837', 'Samsung TV 38” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('810365', 'Iphone 14 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('810814', 'Samsung TV 40” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('820385', 'Iphone 15 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('820885', 'Samsung TV 42” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('830390', 'Iphone 16 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('830879', 'Samsung TV 44” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('900111', 'Iphone 17 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('900836', 'Samsung TV 46” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('900112', 'Iphone 18 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('900871', 'Samsung TV 48” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('910232', 'Iphone 19 Pro Max', 'Television', 5000, '12.07.2018', 2),
-    createData('910886', 'Samsung TV 50” LED Retina', 'Television', 2500, '12.07.2018', 5),
-    createData('910232', 'Iphone 20 Pro Max', 'Television', 5000, '12.07.2018', 2)
+    // createData('790841', 'Samsung TV 32” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('790842', 'Iphone 11 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('798699', 'Samsung TV 34” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('790752', 'Iphone 12 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('790955', 'Samsung TV 36” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('790785', 'Iphone 13 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('800837', 'Samsung TV 38” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('810365', 'Iphone 14 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('810814', 'Samsung TV 40” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('820385', 'Iphone 15 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('820885', 'Samsung TV 42” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('830390', 'Iphone 16 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('830879', 'Samsung TV 44” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('900111', 'Iphone 17 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('900836', 'Samsung TV 46” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('900112', 'Iphone 18 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('900871', 'Samsung TV 48” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('910232', 'Iphone 19 Pro Max', 'Television', 5000, '12.07.2018', 2),
+    // createData('910886', 'Samsung TV 50” LED Retina', 'Television', 2500, '12.07.2018', 5),
+    // createData('910232', 'Iphone 20 Pro Max', 'Television', 5000, '12.07.2018', 2)
+    createData('07.10.2020', 1, 23, 'reward 1', '07/12/2021', 20, 'all', true),
+    createData('07.10.2020', 2, 50, 'reward 2', '07/12/2021', 20, 'female', false)
 ];
 
 // table sort
@@ -94,41 +96,53 @@ function stableSort(array, comparator) {
 // table header options
 const headCells = [
     {
-        id: 'id',
-        numeric: true,
-        label: 'ID',
-        align: 'center'
-    },
-    {
-        id: 'name',
-        numeric: false,
-        label: 'Product Name',
-        align: 'left'
-    },
-    {
-        id: 'category',
-        numeric: false,
-        label: 'Category',
-        align: 'left'
-    },
-    {
-        id: 'price',
-        numeric: true,
-        label: 'Price',
-        align: 'right'
-    },
-    {
         id: 'date',
         numeric: true,
         label: 'Date',
         align: 'center'
     },
     {
-        id: 'qty',
+        id: 'id',
         numeric: true,
-        label: 'QTY',
-        align: 'right'
-    }
+        label: 'ID',
+        align: 'center'
+    },
+    {
+        id: 'points',
+        numeric: true,
+        label: 'Points',
+        align: 'center'
+    },
+    {
+        id: 'description',
+        numeric: false,
+        label: 'Description',
+        align: 'center'
+    },
+    {
+        id: 'expirationDate',
+        numeric: true,
+        label: 'Expiration Date',
+        align: 'center'
+    },
+    {
+        id: 'discount',
+        numeric: true,
+        label: 'Discount',
+        align: 'left'
+    },
+    {
+        id: 'gender',
+        numeric: false,
+        label: 'Gender',
+        align: 'center'
+    },
+    {
+        id: 'status',
+        numeric: false,
+        label: 'Status',
+        align: 'center'
+    },
 ];
 
 // ==============================|| TABLE HEADER ||============================== //
@@ -273,7 +287,7 @@ const Product = () => {
             const newRows = rows.filter((row) => {
                 let matches = true;
 
-                const properties = ['name', 'category', 'price', 'qty', 'id'];
+                const properties = ['id', 'description', 'discount', 'gender', 'status'];
                 let containsQuery = false;
 
                 properties.forEach((property) => {
@@ -338,7 +352,7 @@ const Product = () => {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <MainCard title="Product List" content={false}>
+        <MainCard title="Rewards List" content={false}>
             <CardContent>
                 <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -429,41 +443,14 @@ const Product = () => {
                                                 }}
                                             />
                                         </TableCell>
-                                        <TableCell
-                                            align="center"
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-                                            <Typography
-                                                variant="subtitle1"
-                                                sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}
-                                            >
-                                                {' '}
-                                                #{row.id}{' '}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            sx={{ cursor: 'pointer' }}
-                                        >
-                                            <Typography
-                                                variant="subtitle1"
-                                                sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}
-                                            >
-                                                {' '}
-                                                {row.name}{' '}
-                                            </Typography>
-                                        </TableCell>
-                                        <TableCell>{row.category}</TableCell>
-                                        <TableCell align="right">{row.price}$</TableCell>
                                         <TableCell align="center">{row.date}</TableCell>
-                                        <TableCell align="right">{row.qty}</TableCell>
+                                        <TableCell align="center">{row.id}</TableCell>
+                                        <TableCell align="center">{row.points}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{row.expirationDate}</TableCell>
+                                        <TableCell>{row.discount}</TableCell>
+                                        <TableCell align="center">{row.gender}</TableCell>
+                                        <TableCell align="center">{row.status === true ? "active": "inactive"}</TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton size="large">
                                                 <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />

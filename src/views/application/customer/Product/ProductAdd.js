@@ -23,6 +23,12 @@ import {
     TextField,
     Typography
 } from '@mui/material';
+import DateTimePicker from '@mui/lab/DateTimePicker';
+
+
+
+
+
 
 // project imports
 import { gridSpacing } from 'store/constant';
@@ -107,6 +113,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
     const theme = useTheme();
 
     // handle category change dropdown
+    const [gender, setGender] = useState('All'); 
     const [currency, setCurrency] = useState('2');
     const handleSelectChange = (event) => {
         if (event?.target.value) setCurrency(event?.target.value);
@@ -162,8 +169,28 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
             <DialogTitle>Add Product</DialogTitle>
             <DialogContent>
                 <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <TextField id="outlined-basic1" fullWidth label="Enter Product Name*" defaultValue="Iphone 11 Pro Max" />
+                    </Grid> */}
+                    <Grid item xs={12}>
+                        <DateTimePicker
+                        label="Start Date&Time"
+                        // value={value}
+                        onChange={time => console.log(time)}
+                        margin="normal"
+                        fullWidth
+                        renderInput={(params) => <TextField {...params} />}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <DateTimePicker
+                        label="Expiration Date&Time"
+                        // value={value}
+                        onChange={e => console.log(e.target.value)}
+                        margin="normal"
+                        fullWidth
+                        renderInput={(params) => <TextField {...params} />}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -171,39 +198,32 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             fullWidth
                             multiline
                             rows={3}
-                            label="Enter Product Name"
-                            defaultValue="Fundamentally redesigned and engineered The Apple Watch display yet."
+                            label="Description"
+                            placeholder="Write your description here"
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <TextField
                             id="standard-select-currency"
-                            select
-                            label="Select Category*"
-                            value={currency}
+                            // select
+                            label="Enter Date*"
+                            value=""
                             fullWidth
                             onChange={handleSelectChange}
                             helperText="Please select Category"
-                        >
-                            {categories.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField id="outlined-basic3" fullWidth label="Barcode*" defaultValue="8390590339828" />
-                    </Grid>
-                    <Grid item xs={12}>
+                        />
+                        
+                    </Grid> */}
+                    
+                    {/* <Grid item xs={12}>
                         <TextField id="outlined-basic4" fullWidth label="SKU*" defaultValue="H8J702729P" />
-                    </Grid>
+                    </Grid> */}
                     <Grid item md={6} xs={12}>
                         <TextField
-                            label="Price*"
+                            label="Points"
                             id="filled-start-adornment1"
-                            value="399"
-                            InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
+                            // value=""
+                            InputProps={{ startAdornment: <InputAdornment position="start">#</InputAdornment> }}
                         />
                     </Grid>
                     <Grid item md={6} xs={12}>
@@ -211,26 +231,51 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             label="Discount"
                             id="filled-start-adornment2"
                             value="10"
-                            InputProps={{ startAdornment: <InputAdornment position="start">%</InputAdornment> }}
+                            InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                         />
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        <TextField type="number" id="outlined-basic5" fullWidth label="Quantity*" defaultValue="0" />
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        <TextField id="outlined-basic6" fullWidth label="Brand*" defaultValue="Samsung" />
                     </Grid>
                     <Grid item md={6} xs={12}>
                         <TextField
-                            label="Weight"
-                            value="0"
-                            InputProps={{ endAdornment: <InputAdornment position="end">kg</InputAdornment> }}
-                        />
+                            id="standard-select-currency"
+                            select
+                            label="Select Gender"
+                            value={"active"}
+                            fullWidth
+                            onChange={(e) => setGender(e.target.value)}
+                            // helperText="Please select a gender"
+                        >
+                            {['active', 'inactive'].map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </TextField>
                     </Grid>
                     <Grid item md={6} xs={12}>
-                        <TextField type="number" id="outlined-basic7" fullWidth label="Extra Shipping Free" defaultValue="0" />
+                        {/* <TextField id="outlined-basic6" fullWidth label="Brand*" defaultValue="Samsung" /> */}
+                        <TextField
+                            id="standard-select-currency"
+                            select
+                            label="Select Gender"
+                            value={gender}
+                            fullWidth
+                            onChange={(e) => setGender(e.target.value)}
+                            // helperText="Please select a gender"
+                        >
+                            {['All', 'Male', 'Female'].map((option) => (
+                                <MenuItem key={option} value={option}>
+                                    {option}
+                                </MenuItem>
+                            ))}
+                        </TextField>
                     </Grid>
                     <Grid item xs={12}>
+                    
+                    </Grid>
+                    {/* <Grid item md={6} xs={12}>
+                        <TextField type="number" id="outlined-basic7" fullWidth label="Extra Shipping Free" defaultValue="0" />
+                    </Grid> */}
+                    {/* <Grid item xs={12}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
                                 <Typography variant="subtitle1" align="left">
@@ -304,8 +349,8 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </Grid> */}
+                    {/* <Grid item xs={12}>
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
                                 <Typography variant="subtitle1" align="left">
@@ -338,7 +383,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                                 </div>
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </DialogContent>
             <DialogActions>

@@ -11,6 +11,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
 import ProductList from '../../src/views/application/e-commerce/ProductList';
+import Product from '../../src/views/application/customer/Product';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
 
@@ -42,8 +43,9 @@ export default function PageDashboard() {
 
     return (
         <ThemeProvider theme={themes(customization)}>
-            <MainLayout>
-                <ProductList initialRows={initialRows}/>
+            <MainLayout >
+                <Product />
+                {/* <ProductList initialRows={initialRows}/> */}
             </MainLayout>
         </ThemeProvider>
     );

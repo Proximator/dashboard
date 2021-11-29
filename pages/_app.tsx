@@ -10,25 +10,29 @@ import Locales from '../src/ui-component/Locales';
 import RTLLayout from '../src/ui-component/RTLLayout';
 import Snackbar from '../src/ui-component/extended/Snackbar';
 import NavigationScroll from '../src/layout/NavigationScroll';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import '../src/_mockApis';
 import '../src/styles/scss/style.scss';
 
 export default function MyApp({ Component, pageProps }: any) {
     return (
         <Provider store={store}>
-            <StyledEngineProvider injectFirst>
-                <CssBaseline />
-                <RTLLayout>
-                    <Locales>
-                        <NavigationScroll>
-                            <>
-                                <Component {...pageProps} />
-                                <Snackbar />
-                            </>
-                        </NavigationScroll>
-                    </Locales>
-                </RTLLayout>
-            </StyledEngineProvider>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <StyledEngineProvider injectFirst>
+                    <CssBaseline />
+                    <RTLLayout>
+                        <Locales>
+                            <NavigationScroll>
+                                <>
+                                    <Component {...pageProps} />
+                                    <Snackbar />
+                                </>
+                            </NavigationScroll>
+                        </Locales>
+                    </RTLLayout>
+                </StyledEngineProvider>
+            </LocalizationProvider>
         </Provider>
     );
 }
