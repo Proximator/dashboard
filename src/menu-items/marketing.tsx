@@ -28,6 +28,12 @@ const application = {
             type: 'item',
             url: '/rewards'
         },
+        {
+            id: 'banners',
+            title: <FormattedMessage id="Banners" />,
+            type: 'item',
+            url: '/banners'
+        },
         // {
         //     id: 'users',
         //     title: <FormattedMessage id="users" />,

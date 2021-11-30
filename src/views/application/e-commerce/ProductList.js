@@ -340,7 +340,7 @@ const ProductList = ({initialRows}) => {
                                 )
                             }}
                             onChange={handleSearch}
-                            placeholder="Search Product"
+                            placeholder="Search Reward"
                             value={search}
                             size="small"
                         />
