@@ -34,6 +34,12 @@ const application = {
             type: 'item',
             url: '/banners'
         },
+        {
+            id: 'news',
+            title: <FormattedMessage id="News" />,
+            type: 'item',
+            url: '/news'
+        },
         // {
         //     id: 'users',
         //     title: <FormattedMessage id="users" />,

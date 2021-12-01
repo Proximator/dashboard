@@ -10,7 +10,6 @@ import { ThemeProvider } from '@mui/material/styles';
 // project imports
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
-import ProductList from '../../src/views/application/e-commerce/ProductList';
 import Product from '../../src/views/application/customer/Product';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
