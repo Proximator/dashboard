@@ -9,6 +9,7 @@ const NavigationScroll = ({ children }: { children: React.ReactElement | null })
     const { pathname } = router;
 
     useEffect(() => {
+        if(typeof window === 'undefined')return;
         // eslint-disable-next-line no-undef
         window.scrollTo({
             top: 0,

@@ -6,12 +6,12 @@ import dynamic from 'next/dynamic';
 
 // mui
 import { ThemeProvider } from '@mui/material/styles';
-import { Typography } from '@mui/material';
 
 // project imports
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
 import MainCard from 'ui-component/cards/MainCard';
+const Dashboard = dynamic(() => import('../../src/views/dashboard/Default'), { ssr: false });
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
 
@@ -22,7 +22,7 @@ export default function PageDashboard() {
         <ThemeProvider theme={themes(customization)}>
             <MainLayout>
                 <MainCard title="Dashboard">
-                    <Typography variant="body2">This is sample dashboard</Typography>
+                    <Dashboard />
                 </MainCard>
             </MainLayout>
         </ThemeProvider>

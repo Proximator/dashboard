@@ -23,7 +23,7 @@ export default function PageDashboard() {
     return (
         <ThemeProvider theme={themes(customization)}>
             <MainLayout >
-            <MainCard title="Dashboard">
+            <MainCard title="Create Message">
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={6} md={6} >
                             <TextField select fullWidth label="Client">

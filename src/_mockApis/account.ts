@@ -29,7 +29,6 @@ services.onPost('/api/account/login').reply(async (request) => {
         await delay(500);
 
         const { email, password } = JSON.parse(request.data);
-
         if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
             const localUsers = window.localStorage.getItem('users');
             users = JSON.parse(localUsers!);

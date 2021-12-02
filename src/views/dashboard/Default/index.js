@@ -24,11 +24,17 @@ const Dashboard = () => {
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
+                    <Grid item lg={2} md={6} sm={6} xs={12}>
                         <EarningCard isLoading={isLoading} />
                     </Grid>
-                    <Grid item lg={4} md={6} sm={6} xs={12}>
-                        <TotalOrderLineChartCard isLoading={isLoading} />
+                    <Grid item lg={2} md={6} sm={6} xs={12}>
+                        <EarningCard isLoading={isLoading} />
+                    </Grid>
+                    <Grid item lg={2} md={6} sm={6} xs={12}>
+                        <EarningCard isLoading={isLoading} />
+                    </Grid>
+                    <Grid item lg={2} md={6} sm={6} xs={12}>
+                        <EarningCard isLoading={isLoading} />
                     </Grid>
                     <Grid item lg={4} md={12} sm={12} xs={12}>
                         <Grid container spacing={gridSpacing}>
@@ -44,12 +50,21 @@ const Dashboard = () => {
             </Grid>
             <Grid item xs={12}>
                 <Grid container spacing={gridSpacing}>
-                    <Grid item xs={12} md={8}>
+                    <Grid item lg={6} xs={12} md={6}>
                         <TotalGrowthBarChart isLoading={isLoading} />
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                        <PopularCard isLoading={isLoading} />
+                    <Grid item lg={6} xs={12} md={6}>
+                        <TotalGrowthBarChart isLoading={isLoading} />
                     </Grid>
+                    <Grid item lg={6} xs={12} md={6}>
+                        <TotalGrowthBarChart isLoading={isLoading} />
+                    </Grid>
+                    <Grid item lg={6} xs={12} md={6}>
+                        <TotalGrowthBarChart isLoading={isLoading} />
+                    </Grid>
+                    {/* <Grid item xs={12} md={4}>
+                        <PopularCard isLoading={isLoading} />
+                    </Grid> */}
                 </Grid>
             </Grid>
         </Grid>
