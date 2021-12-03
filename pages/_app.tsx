@@ -12,6 +12,7 @@ import Snackbar from '../src/ui-component/extended/Snackbar';
 import NavigationScroll from '../src/layout/NavigationScroll';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import {RewardsProvider} from '../src/contexts/RewardsContext'
 import '../src/_mockApis';
 import '../src/styles/scss/style.scss';
 
@@ -24,10 +25,10 @@ export default function MyApp({ Component, pageProps }: any) {
                     <RTLLayout>
                         <Locales>
                             <NavigationScroll>
-                                <>
+                                <RewardsProvider>
                                     <Component {...pageProps} />
                                     <Snackbar />
-                                </>
+                                </RewardsProvider>
                             </NavigationScroll>
                         </Locales>
                     </RTLLayout>

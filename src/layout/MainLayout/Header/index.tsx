@@ -65,12 +65,12 @@ const Header = ({ handleLeftDrawerToggle }: HeaderProps) => {
             <Box sx={{ flexGrow: 1 }} />
 
             {/* live customization & localization */}
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Box sx={{ display: { xs: 'none', sm: 'block' }, mr: 2 }}>
                 <LocalizationSection />
             </Box>
 
             {/* notification & profile */}
-            <NotificationSection />
+            {/* <NotificationSection /> */}
             <ProfileSection />
 
             {/* mobile header */}

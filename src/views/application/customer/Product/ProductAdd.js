@@ -28,8 +28,6 @@ import DateTimePicker from '@mui/lab/DateTimePicker';
 
 
 
-
-
 // project imports
 import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -42,6 +40,13 @@ import Product1 from 'assets/images/widget/prod1.jpg';
 import Product2 from 'assets/images/widget/prod2.jpg';
 import Product3 from 'assets/images/widget/prod3.jpg';
 import Product4 from 'assets/images/widget/prod4.jpg';
+import { useRewards } from '@/contexts/RewardsContext';
+
+const createData = (date, id, points, description, expirationDate, discount, gender, status) => {
+    return { date, id, points, description, expirationDate, discount, gender, status };
+}
+
+
 
 // styles
 const ImageWrapper = styled('div')(({ theme }) => ({
@@ -111,6 +116,7 @@ function getStyles(name, personName, theme) {
 
 const ProductAdd = ({ open, handleCloseDialog }) => {
     const theme = useTheme();
+    const { createReward } = useRewards(); 
 
     // handle category change dropdown
     const [gender, setGender] = useState('All'); 
@@ -387,8 +393,12 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <AnimateButton>
-                    <Button variant="contained">Create</Button>
+                <AnimateButton >
+                    <Button variant="contained" onClick={async () => {
+                    console.log('here');
+                    await createReward(createData('07.10.2020', 1, 23, 'reward 1', '07/12/2021', 20, 'all', true));
+                    console.log('dome');
+                }}>Create</Button>
                 </AnimateButton>
                 <Button variant="text" color="error" onClick={handleCloseDialog}>
                     Close

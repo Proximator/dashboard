@@ -58,7 +58,7 @@ const ProfileSection = () => {
      * */
     const anchorRef = React.useRef<any>(null);
     const handleLogout = async () => {
-        router.push('/login');
+        router.push('/');
         // try {
         //     await logout();
         // } catch (err) {
@@ -185,9 +185,9 @@ const ProfileSection = () => {
                                         <Divider />
                                     </Box>
                                     <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
-                                        <Box sx={{ p: 2 }}>
-                                            <UpgradePlanCard />
-                                            <Divider />
+                                        <Box sx={{ p: 2, pt: 0 }}>
+                                            {/* <UpgradePlanCard /> */}
+                                            {/* <Divider />
                                             <Card
                                                 sx={{
                                                     bgcolor:
@@ -232,8 +232,7 @@ const ProfileSection = () => {
                                                         </Grid>
                                                     </Grid>
                                                 </CardContent>
-                                            </Card>
-                                            <Divider />
+                                            </Card> */}
                                             <List
                                                 component="nav"
                                                 sx={{
@@ -260,7 +259,7 @@ const ProfileSection = () => {
                                                     </ListItemIcon>
                                                     <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
                                                 </ListItemButton>
-                                                <ListItemButton
+                                                {/* <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 1}
                                                     onClick={(event: React.MouseEvent<HTMLDivElement>) => handleListItemClick(event, 1)}
@@ -290,7 +289,7 @@ const ProfileSection = () => {
                                                             </Grid>
                                                         }
                                                     />
-                                                </ListItemButton>
+                                                </ListItemButton> */}
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 4}

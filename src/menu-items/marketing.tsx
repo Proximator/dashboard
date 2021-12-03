@@ -24,25 +24,25 @@ const application = {
     children: [
         {
             id: 'rewards',
-            title: <FormattedMessage id="Rewards" />,
+            title: <FormattedMessage id="rewards" />,
             type: 'item',
             url: '/rewards'
         },
         {
             id: 'banners',
-            title: <FormattedMessage id="Banners" />,
+            title: <FormattedMessage id="banners" />,
             type: 'item',
             url: '/banners'
         },
         {
             id: 'news',
-            title: <FormattedMessage id="News" />,
+            title: <FormattedMessage id="news" />,
             type: 'item',
             url: '/news'
         },
         {
             id: 'messages',
-            title: <FormattedMessage id="Messages" />,
+            title: <FormattedMessage id="messages" />,
             type: 'item',
             url: '/messages'
         },

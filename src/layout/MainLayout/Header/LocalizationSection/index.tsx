@@ -175,30 +175,6 @@ const LocalizationSection = () => {
                                             }
                                         />
                                     </ListItemButton>
-                                    <ListItemButton selected={language === 'ro'} onClick={(event) => handleListItemClick(event, 'ro')}>
-                                        <ListItemText
-                                            primary={
-                                                <Grid container>
-                                                    <Typography color="textPrimary">Română</Typography>
-                                                    <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                                                        (Romanian)
-                                                    </Typography>
-                                                </Grid>
-                                            }
-                                        />
-                                    </ListItemButton>
-                                    <ListItemButton selected={language === 'zh'} onClick={(event) => handleListItemClick(event, 'zh')}>
-                                        <ListItemText
-                                            primary={
-                                                <Grid container>
-                                                    <Typography color="textPrimary">中国人</Typography>
-                                                    <Typography variant="caption" color="textSecondary" sx={{ ml: '8px' }}>
-                                                        (Chinese)
-                                                    </Typography>
-                                                </Grid>
-                                            }
-                                        />
-                                    </ListItemButton>
                                 </List>
                             </ClickAwayListener>
                         </Paper>

@@ -1,7 +1,14 @@
 {
+
+    "rewards": "Rewards",
+    "banners": "Banners",
+    "news": "News",
+    "messages": "Messages",
+
     "dashboard": "Dashboard",
     "default": "Default",
     "analytics": "Analytics",
+    
 
     "widget": "Widget",
     "statistics": "Statistics",
