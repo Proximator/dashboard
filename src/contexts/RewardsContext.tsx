@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
 interface Reward { date: string, id?: number, points: number, description: string, expirationDate: string, discount: number, gender: string, status: boolean }
 
@@ -21,7 +21,11 @@ const rowsInitial = [
 ];
 
 export const RewardsProvider = ({ children } : { children: ReactNode }): JSX.Element => {
-    const [rewards, setRewards] = useState<Reward[]>(rowsInitial);
+    const [rewards, setRewards] = useState<Reward[]>([]);
+
+    useEffect(() => {
+        setRewards(rowsInitial);
+    }, []);
 
     const createReward = (reward: Reward): Promise<void> => {
         console.log({reward});

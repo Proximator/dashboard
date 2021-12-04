@@ -14,6 +14,7 @@ import { DefaultRootStateProps } from '../../src/types';
 import Comp from '../../src/components/pages/messages';
 import MainCard from '../../src/ui-component/cards/MainCard';
 import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import { DateTimePicker } from '@mui/lab';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
 
@@ -42,11 +43,15 @@ export default function PageDashboard() {
                             
                             />
                         </Grid>
-                        <Grid item xs={6} md={6}>
-                            <TextField select fullWidth label="Date De Fin">
-                                {['hello', 'hi'].map(e => 
-                                    <MenuItem key={e}>{e}</MenuItem>)}
-                            </TextField>
+                        <Grid item xs={6} md={6} >
+                            <DateTimePicker
+                                label="Expiration Date&Time"
+                                // value={value}
+                                onChange={e => console.log(e.target.value)}
+                                margin="normal"
+                                fullWidth
+                                renderInput={(params) => <TextField {...params} fullWidth/>}
+                            />
                         </Grid>
                         <Grid item xs={12} md={12}>
                             <TextField  fullWidth label="Date De Fin" multiline rows={3}/>

@@ -14,7 +14,7 @@ import { DefaultRootStateProps } from '../src/types';
 const PageLayout = dynamic(() => import('../src/layout'), { ssr: false });
 import MainCard from '../src/ui-component/cards/MainCard';
 import JWTLogin from '../src/views/pages/authentication/login/JWTLogin';
-import { Divider, Grid, Stack, Typography, useMediaQuery, Box, Link as MuiLink } from '@mui/material';
+import { Divider, Grid, Stack, Typography, useMediaQuery, Box } from '@mui/material';
 import Logo from '@/ui-component/Logo';
 
 const AuthCardWrapper = ({ children, ...other }) => (

@@ -13,6 +13,7 @@ import {
     DialogContent,
     DialogTitle,
     Fab,
+    FormControlLabel,
     Grid,
     Input,
     InputAdornment,
@@ -20,6 +21,7 @@ import {
     MenuItem,
     Select,
     Slide,
+    Switch,
     TextField,
     Typography
 } from '@mui/material';
@@ -185,7 +187,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         onChange={e => console.log(e.target.value)}
                         margin="normal"
                         fullWidth
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => <TextField {...params} fullWidth />}
                         />
                     </Grid>
                     <Grid item md={6} xs={12}>
@@ -193,25 +195,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             id="standard-select-currency"
                             select
                             label="Select Gender"
-                            value={"active"}
-                            fullWidth
-                            onChange={(e) => setGender(e.target.value)}
-                            // helperText="Please select a gender"
-                        >
-                            {['active', 'inactive'].map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        {/* <TextField id="outlined-basic6" fullWidth label="Brand*" defaultValue="Samsung" /> */}
-                        <TextField
-                            id="standard-select-currency"
-                            select
-                            label="Select Gender"
-                            value={gender}
+                            value={"All"}
                             fullWidth
                             onChange={(e) => setGender(e.target.value)}
                             // helperText="Please select a gender"
@@ -222,6 +206,9 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                                 </MenuItem>
                             ))}
                         </TextField>
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                            <FormControlLabel control={<Switch defaultChecked />} label="Active" />
                     </Grid>
                     <Grid item xs={12}>
                     
@@ -305,40 +292,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             </Grid>
                         </Grid>
                     </Grid> 
-                     <Grid item xs={12}>
-                        <Grid container spacing={1}>
-                            <Grid item xs={12}>
-                                <Typography variant="subtitle1" align="left">
-                                    Tags
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <div>
-                                    <Select
-                                        id="demo-multiple-chip"
-                                        multiple
-                                        fullWidth
-                                        value={personName}
-                                        onChange={handleTagSelectChange}
-                                        input={<Input id="select-multiple-chip" />}
-                                        renderValue={(selected) => (
-                                            <div>
-                                                {typeof selected !== 'string' &&
-                                                    selected.map((value) => <Chip key={value} label={value} />)}
-                                            </div>
-                                        )}
-                                        MenuProps={MenuProps}
-                                    >
-                                        {tagNames.map((name) => (
-                                            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                                                {name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </Grid> 
+                    
                 </Grid>
             </DialogContent>
             <DialogActions>

@@ -192,7 +192,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         // value={value}
                         onChange={e => console.log(e)}
 
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => <TextField {...params} fullWidth />}
                         />
                     </Grid>
                     <Grid item md={6} xs={12}>

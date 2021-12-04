@@ -40,36 +40,6 @@ import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { useRewards } from '@/contexts/RewardsContext';
 
-// table data
-// function createData(date, id, points, description, expirationDate, discount, gender, status) {
-//     return { date, id, points, description, expirationDate, discount, gender, status };
-// }
-
-// const rowsInitial = [
-//     // createData('790841', 'Samsung TV 32” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('790842', 'Iphone 11 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('798699', 'Samsung TV 34” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('790752', 'Iphone 12 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('790955', 'Samsung TV 36” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('790785', 'Iphone 13 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('800837', 'Samsung TV 38” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('810365', 'Iphone 14 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('810814', 'Samsung TV 40” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('820385', 'Iphone 15 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('820885', 'Samsung TV 42” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('830390', 'Iphone 16 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('830879', 'Samsung TV 44” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('900111', 'Iphone 17 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('900836', 'Samsung TV 46” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('900112', 'Iphone 18 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('900871', 'Samsung TV 48” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('910232', 'Iphone 19 Pro Max', 'Television', 5000, '12.07.2018', 2),
-//     // createData('910886', 'Samsung TV 50” LED Retina', 'Television', 2500, '12.07.2018', 5),
-//     // createData('910232', 'Iphone 20 Pro Max', 'Television', 5000, '12.07.2018', 2)
-//     createData('07.10.2020', 1, 23, 'reward 1', '07/12/2021', 20, 'all', true),
-//     createData('07.10.2020', 2, 50, 'reward 2', '07/12/2021', 20, 'female', false)
-// ];
-
 // table sort
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {

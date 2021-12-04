@@ -13,6 +13,8 @@ import {
     DialogContent,
     DialogTitle,
     Fab,
+    FormControlLabel,
+    FormGroup,
     Grid,
     Input,
     InputAdornment,
@@ -20,6 +22,7 @@ import {
     MenuItem,
     Select,
     Slide,
+    Switch,
     TextField,
     Typography
 } from '@mui/material';
@@ -172,30 +175,30 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                 }
             }}
         >
-            <DialogTitle>Add Product</DialogTitle>
+            <DialogTitle>Add Rewards</DialogTitle>
             <DialogContent>
                 <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                     {/* <Grid item xs={12}>
                         <TextField id="outlined-basic1" fullWidth label="Enter Product Name*" defaultValue="Iphone 11 Pro Max" />
                     </Grid> */}
-                    <Grid item xs={12}>
+                    <Grid item lg={12} xs={12}>
                         <DateTimePicker
                         label="Start Date&Time"
                         // value={value}
                         onChange={time => console.log(time)}
                         margin="normal"
                         fullWidth
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => <TextField {...params} fullWidth />}
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item lg={12} xs={12}>
                         <DateTimePicker
                         label="Expiration Date&Time"
                         // value={value}
                         onChange={e => console.log(e.target.value)}
                         margin="normal"
                         fullWidth
-                        renderInput={(params) => <TextField {...params} />}
+                        renderInput={(params) => <TextField {...params} fullWidth/>}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -228,7 +231,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         <TextField
                             label="Points"
                             id="filled-start-adornment1"
-                            // value=""
+                            value={0}
                             InputProps={{ startAdornment: <InputAdornment position="start">#</InputAdornment> }}
                         />
                     </Grid>
@@ -245,25 +248,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             id="standard-select-currency"
                             select
                             label="Select Gender"
-                            value={"active"}
-                            fullWidth
-                            onChange={(e) => setGender(e.target.value)}
-                            // helperText="Please select a gender"
-                        >
-                            {['active', 'inactive'].map((option) => (
-                                <MenuItem key={option} value={option}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                        {/* <TextField id="outlined-basic6" fullWidth label="Brand*" defaultValue="Samsung" /> */}
-                        <TextField
-                            id="standard-select-currency"
-                            select
-                            label="Select Gender"
-                            value={gender}
+                            value={"All"}
                             fullWidth
                             onChange={(e) => setGender(e.target.value)}
                             // helperText="Please select a gender"
@@ -275,9 +260,10 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item xs={12}>
-                    
+                    <Grid item md={6} xs={12}>
+                            <FormControlLabel control={<Switch defaultChecked />} label="Active" />
                     </Grid>
+
                     {/* <Grid item md={6} xs={12}>
                         <TextField type="number" id="outlined-basic7" fullWidth label="Extra Shipping Free" defaultValue="0" />
                     </Grid> */}
