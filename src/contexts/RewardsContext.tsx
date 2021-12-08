@@ -1,6 +1,12 @@
+import { Rowing } from '@mui/icons-material';
+import axios from 'axios';
 import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
+<<<<<<< HEAD
 import { Reward, Gender } from "../types";
+=======
+interface Reward { date: Date, id?: number, points: number, description: string, expirationDate: string, discount: number, gender: string, status: boolean }
+>>>>>>> 967d7bf... Rewards Context api call initial
 
 interface RewardsContextType {
     rewards: Reward[];
@@ -31,11 +37,31 @@ export const RewardsProvider = ({ children } : { children: ReactNode }): JSX.Ele
     const createReward = (reward: Reward): Promise<void> => {
         console.log({reward});
         return new Promise((res) => {
-            setTimeout(() => {
-                setRewards((prev) => [...prev, reward]);
-                console.log('done from function')
-                res();
-            }, 300);
+            try{
+                // setTimeout(() => {
+                //     setAddReward(reward);
+                //     console.log('done from RewardsContext')
+                //     res();
+                // }, 3000);
+                axios.post('http://75.119.140.14:8081/api/v1/loyalty/rewards',{
+                    reward
+                    // "brandId": 0,
+                    // "businessId": 0,
+                    // "description": "string",
+                    // "discount": 0,
+                    // "expireDate": "2021-12-07T13:05:40.236Z",
+                    // "id": 0,
+                    // "isActive": true,
+                    // "isEngineering": true,
+                    // "points": 0,
+                    // "targetGender": "ALL",
+                    // "bussiness":"slkdf"
+                })
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err.message));
+            }catch(error){
+                console.log(error);
+            }
         })
     } 
 
