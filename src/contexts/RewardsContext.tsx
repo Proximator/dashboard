@@ -20,62 +20,52 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
   const [rewards, setRewards] = useState<Reward[]>([]);
   const { businessId } = useAuth();
   useEffect(() => {
-    axios
-      .get(`loyalty/rewards?businessId=${businessId}`)
-      .then((res) => {
-        console.log(res.data);
-        let { data } = res;
-        if(data === '')data = [];
-        setRewards(data as Reward[]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getRewards().then(rewards => revalidateRewards({rewards}) )
   }, []);
 
-  const createReward = (reward: Reward): Promise<void> => {
-    console.log({ reward });
-    return new Promise((res) => {
-      try {
-        // setTimeout(() => {
-        //     setAddReward(reward);
-        //     console.log('done from RewardsContext')
-        //     res();
-        // }, 3000);
-        // axios.post('http://75.119.140.14:8081/api/v1/loyalty/rewards',{
-        //     reward
-        //     // "brandId": 0,
-        //     // "businessId": 0,
-        //     // "description": "string",
-        //     // "discount": 0,
-        //     // "expireDate": "2021-12-07T13:05:40.236Z",
-        //     // "id": 0,
-        //     // "isActive": true,
-        //     // "isEngineering": true,
-        //     // "points": 0,
-        //     // "targetGender": "ALL",
-        //     // "bussiness":"slkdf"
-        // })
-        // .then(res => console.log(res.data))
-        // .catch(err => console.log(err.message));
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
+  const revalidateRewards = ({rewards} : {rewards: Reward[]}): void => {
+    setRewards(rewards);
+  }
 
-  const deleteRewards = (ids: number[]): Promise<void> => {
-    const newRewards = rewards.filter((e) => e.id && !ids.includes(e.id));
-    return new Promise((res) => {
-      setTimeout(() => {
-        setRewards([...newRewards]);
-        console.log('done from function');
-        res();
-      }, 300);
-    });
+  const getRewards = async (): Promise<Reward[]> => {
+    try{
+    const res = await axios.get(`loyalty/rewards?businessId=${businessId}`)
+      let data = res.data as Reward[] | '';
+      return data === ''? [] : data;
+    }
+    catch(error) {
+      return [];
+    };
+  }
+
+  const createReward = async (reward: Reward): Promise<void> => {
+    console.log({reward});
+    try{
+      const res = await axios.post('loyalty/rewards',{
+          ...reward,
+          expireDate: new Date(reward.expireDate).toISOString(),
+          businessId,
+          brandId: 0,
+      })
+      getRewards().then(rewards => revalidateRewards({rewards}));
+    }catch(error){
+        console.log(error);
+    }
+} 
+
+  const deleteRewards = async (ids: number[]): Promise<void> => {
+    try {
+      await Promise.all(ids
+        .map(e => `loyalty/rewards/${e}`)
+        .map(e => axios.delete(e)))
+        const newRewards = rewards.filter((e) => e.id && !ids.includes(e.id));
+        setRewards(newRewards);
+    }catch(err){
+      console.log({err});
+    }
   };
 
   return <RewardsContext.Provider value={{ rewards, createReward, deleteRewards }}>{children}</RewardsContext.Provider>;
-};
 
+}
 export const useRewards = (): RewardsContextType => useContext(RewardsContext) as RewardsContextType;

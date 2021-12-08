@@ -32,7 +32,7 @@ export interface Reward {
   id?: number;
   points: number;
   description: string;
-  expirationDate: string;
+  expireDate: string;
   discount: number;
   targetGender: TargetGender;
   isActive: boolean;

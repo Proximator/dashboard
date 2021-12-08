@@ -410,7 +410,7 @@ const Rewards = () => {
                                         <TableCell align="center">{row.id}</TableCell>
                                         <TableCell align="center">{row.points}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{row.expirationDate}</TableCell>
+                                        <TableCell align="center">{row.expireDate}</TableCell>
                                         <TableCell align="center">{row.discount}</TableCell>
                                         <TableCell align="center">{row.isEngineering === true ? "true": "false"}</TableCell>
                                         <TableCell align="center">{row.targetGender}</TableCell>
@@ -423,8 +423,8 @@ const Rewards = () => {
                                                     </IconButton>
                                                 </Grid>
                                                 <Grid item xs={6} md={6} lg={6}>
-                                                    <IconButton size="medium">
-                                                        <IconTrash onClick={() => deleteRewards([row.id])}  />
+                                                    <IconButton size="medium" onClick={() => deleteRewards([row.id!])}>
+                                                        <IconTrash   />
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>

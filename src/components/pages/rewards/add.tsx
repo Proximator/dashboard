@@ -44,9 +44,8 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
         description: '',
         points: 0,
         discount: 0,
-        expirationDate: new Date().toDateString(),
+        expireDate: new Date().toDateString(),
         targetGender: 'ALL',
-        status: true,
     });
     console.log({values});
     // set image upload progress
@@ -97,8 +96,8 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                     <Grid item lg={12} xs={12}>
                         <DesktopDatePicker
                         label="Expiration Date"
-                        value={values.expirationDate}
-                        onChange={e => console.log(e)}
+                        value={values.expireDate}
+                        onChange={(e) => setValues({...values, expireDate: new Date(e).toDateString()})}
                         renderInput={(params) => <TextField {...params} fullWidth/>}
                         />
                     </Grid>
