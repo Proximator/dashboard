@@ -4,9 +4,10 @@
     "banners": "Bannières",
     "news": "Nouvelles",
     "messages": "Messages",
+    "marketingCampaign" :"Campagne de marketing",
 
     "dashboard": "Tableau de bord",
-    "default": ",Défaut",
+    "default": "Défaut",
     "analytics": "Analytique",
 
     "widget": "Widget",

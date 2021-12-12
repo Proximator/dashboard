@@ -26,7 +26,7 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-import DateTimePicker from '@mui/lab/DateTimePicker';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 
 
@@ -182,8 +182,8 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         <TextField id="outlined-basic1" fullWidth label="Enter Product Name*" defaultValue="Iphone 11 Pro Max" />
                     </Grid> */}
                     <Grid item lg={12} xs={12}>
-                        <DateTimePicker
-                        label="Start Date&Time"
+                        <DesktopDatePicker
+                        label="Start Date"
                         // value={value}
                         onChange={time => console.log(time)}
                         margin="normal"
@@ -192,7 +192,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         />
                     </Grid>
                     <Grid item lg={12} xs={12}>
-                        <DateTimePicker
+                        <DesktopDatePicker
                         label="Expiration Date&Time"
                         // value={value}
                         onChange={e => console.log(e.target.value)}

@@ -18,7 +18,7 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    TableSortLabel, 
+    TableSortLabel,
     TextField,
     Toolbar,
     Tooltip,
@@ -40,13 +40,13 @@ import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 // table data
-function createData(creationDate, id, subject, expirationDate, status) {
-    return { creationDate, id, subject, expirationDate, status };
+function createData(creationDate, id, subject, content, status) {
+    return { creationDate, id, subject, content, status };
 }
 
 const rowsInitial = [
-    createData('07.10.2020', 1, 'Deal 1', '07.12.2021', true),
-    createData('07.10.2020', 2, 'Deal 2', '07.12.2021', false)
+    createData('07.10.2020', 1, 'Deal 1', 'Message1', 'in progress'),
+    createData('07.10.2020', 2, 'Deal 2', 'Message2', 'sent')
 ];
 
 // table sort
@@ -76,7 +76,7 @@ function stableSort(array, comparator) {
 // table header options
 const headCells = [
     {
-        id: 'creationDate',
+        id: 'date',
         numeric: true,
         label: 'Creation Date',
         align: 'center'
@@ -94,9 +94,9 @@ const headCells = [
         align: 'center'
     },
     {
-        id: 'expirationDate',
+        id: 'content',
         numeric: true,
-        label: 'Expiration Date',
+        label: 'Content',
         align: 'center'
     },
     {
@@ -138,7 +138,7 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
                         <TableCell
                             key={headCell.id}
                             align={headCell.align}
-                            padding='none'
+                            padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -221,7 +221,7 @@ EnhancedTableToolbar.propTypes = {
 
 // ==============================|| PRODUCT LIST ||============================== //
 
-const NewsList = () => {
+const CampaignList = () => {
     const theme = useTheme();
 
     // show a right sidebar when clicked on new product
@@ -277,19 +277,19 @@ const NewsList = () => {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelectedId = rows.map((n) => n.name);
+            const newSelectedId = rows.map((n) => n.id);
             setSelected(newSelectedId);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (event, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -327,7 +327,7 @@ const NewsList = () => {
                                 )
                             }}
                             onChange={handleSearch}
-                            placeholder="Search News"
+                            placeholder="Search Banner"
                             value={search}
                             size="small"
                         />
@@ -384,7 +384,7 @@ const NewsList = () => {
                             .map((row, index) => {
                                 /** Make sure no display bugs if row isn't an OrderData object */
                                 if (typeof row === 'number') return null;
-                                const isItemSelected = isSelected(row.name);
+                                const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
@@ -396,7 +396,7 @@ const NewsList = () => {
                                         key={index}
                                         selected={isItemSelected}
                                     >
-                                        <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row.name)}>
+                                        <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row.id)}>
                                             <Checkbox
                                                 color="primary"
                                                 checked={isItemSelected}
@@ -408,7 +408,7 @@ const NewsList = () => {
                                         <TableCell align="center">{row.creationDate}</TableCell>
                                         <TableCell align="center">{row.id}</TableCell>
                                         <TableCell align="center">{row.subject}</TableCell>
-                                        <TableCell align="center">{row.expirationDate}</TableCell>
+                                        <TableCell align="center">{row.content}</TableCell>
                                         <TableCell align="center">{row.status === true ? "active": "inactive"}</TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton size="large">
@@ -445,4 +445,4 @@ const NewsList = () => {
     );
 };
 
-export default NewsList;
+export default CampaignList;

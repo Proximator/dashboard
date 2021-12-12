@@ -10,21 +10,14 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    FormControlLabel,
     Grid,
     InputLabel,
     MenuItem,
     Slide,
-    Switch,
     TextField,
     Typography
 } from '@mui/material';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-
-
-
-
-
 
 // project imports
 import { gridSpacing } from 'store/constant';
@@ -32,12 +25,6 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 
 // assets
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import CloseIcon from '@mui/icons-material/Close';
-
-import Product1 from 'assets/images/widget/prod1.jpg';
-import Product2 from 'assets/images/widget/prod2.jpg';
-import Product3 from 'assets/images/widget/prod3.jpg';
-import Product4 from 'assets/images/widget/prod4.jpg';
 
 // styles
 const ImageWrapper = styled('div')(({ theme }) => ({
@@ -57,51 +44,8 @@ const ImageWrapper = styled('div')(({ theme }) => ({
     }
 }));
 
-// product category options
-const categories = [
-    {
-        value: '1',
-        label: 'Iphone 12 Pro Max'
-    },
-    {
-        value: '2',
-        label: 'Iphone 11 Pro Max'
-    },
-    {
-        value: '3',
-        label: 'Nokia'
-    },
-    {
-        value: '4',
-        label: 'Samsung'
-    }
-];
-
 // animation
 const Transition = forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250
-        }
-    },
-    chip: {
-        margin: 2
-    }
-};
-
-// tags list & style
-const tagNames = ['Html', 'Scss', 'Js', 'React', 'Ionic', 'Angular', 'css', 'Php', 'View'];
-
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
-    };
-}
 
 // ==============================|| PRODUCT ADD DIALOG ||============================== //
 
@@ -110,6 +54,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
 
     // handle category change dropdown
     const [file, setFile] = useState();
+    const [date, setDate] = useState();
     const [gender, setGender] = useState('All'); 
     const [currency, setCurrency] = useState('2');
     const handleSelectChange = (event) => {
@@ -141,9 +86,6 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
 
     // handle tag select
     const [personName, setPersonName] = useState([]);
-    const handleTagSelectChange = (event) => {
-        setPersonName(event?.target.value);
-    };
 
     return (
         <Dialog
@@ -166,28 +108,20 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
             <DialogTitle>Add Banner</DialogTitle>
             <DialogContent>
                 <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-                    <Grid item xs={12}>
-                        <TextField 
-                            id="outlined-basic1" 
-                            fullWidth 
-                            label="Enter Banner Name*" 
-                            placeholder="Name" 
-                        />
-                    </Grid>
+                    
                     <Grid item xs={12}>
                         <DesktopDatePicker
-                        label="Expiration Date"
-                        // value={value}
-                        onChange={e => console.log(e.target.value)}
-                        fullWidth
+                        label="Launch Date"
+                        value={date}
+                        onChange={e => setDate(e)}
                         renderInput={(params) => <TextField {...params} fullWidth />}
                         />
                     </Grid>
-                    <Grid item md={6} xs={12}>
+                    <Grid item md={12} xs={12}>
                         <TextField
                             id="standard-select-currency"
                             select
-                            label="Select Gender"
+                            label="Target Group"
                             value={"All"}
                             fullWidth
                             onChange={(e) => setGender(e.target.value)}
@@ -200,11 +134,23 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             ))}
                         </TextField>
                     </Grid>
-                    <Grid item md={6} xs={12}>
-                            <FormControlLabel control={<Switch defaultChecked />} label="Active" />
+                    <Grid item xs={12}>
+                        <TextField 
+                            id="outlined-basic1" 
+                            fullWidth 
+                            label="Subject" 
+                            placeholder="Subject" 
+                        />
                     </Grid>
                     <Grid item xs={12}>
-                    
+                        <TextField 
+                            id="outlined-basic1" 
+                            fullWidth 
+                            multiline
+                            rows={3}
+                            label="Content" 
+                            placeholder="Content" 
+                        />
                     </Grid>
                     {file && <Grid item xs={12}> 
                                         <ImageWrapper >
@@ -245,42 +191,6 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                                 </div>
                                   
                                 <Grid container spacing={1}>
-                                      {/*<Grid item>
-                                        <ImageWrapper>
-                                            <CardMedia component="img" image={Product2} title="Product" />
-                                        </ImageWrapper>
-                                    </Grid>
-                                    <Grid item>
-                                        <ImageWrapper>
-                                            <CardMedia component="img" image={Product3} title="Product" />
-                                        </ImageWrapper>
-                                    </Grid>
-                                    <Grid item>
-                                        <ImageWrapper>
-                                            <CardMedia component="img" image={Product4} title="Product" />
-                                            <CircularProgress
-                                                variant="determinate"
-                                                value={progress}
-                                                color="secondary"
-                                                sx={{
-                                                    position: 'absolute',
-                                                    left: '0',
-                                                    top: '0',
-                                                    background: 'rgba(255, 255, 255, .8)',
-                                                    width: '100% !important',
-                                                    height: '100% !important',
-                                                    p: 1.5
-                                                }}
-                                            />
-                                        </ImageWrapper>
-                                    </Grid> */}
-                                    {/* <Grid item>
-                                        <ImageWrapper>
-                                            <Fab color="secondary" size="small">
-                                                <CloseIcon />
-                                            </Fab>
-                                        </ImageWrapper>
-                                    </Grid> */}
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -290,7 +200,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
             </DialogContent>
             <DialogActions>
                 <AnimateButton>
-                    <Button variant="contained">Create</Button>
+                    <Button variant="contained">Submit campaign and send email</Button>
                 </AnimateButton>
                 <Button variant="text" color="error" onClick={handleCloseDialog}>
                     Close

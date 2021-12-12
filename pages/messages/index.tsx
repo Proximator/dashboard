@@ -6,15 +6,11 @@ import dynamic from 'next/dynamic';
 
 // mui
 import { ThemeProvider } from '@mui/material/styles';
-import { gridSpacing } from 'store/constant';
 
 // project imports
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
-import Comp from '../../src/components/pages/messages';
-import MainCard from '../../src/ui-component/cards/MainCard';
-import { Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import { DateTimePicker } from '@mui/lab';
+import News from '../../src/components/pages/messages';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
 
@@ -24,43 +20,7 @@ export default function PageDashboard() {
     return (
         <ThemeProvider theme={themes(customization)}>
             <MainLayout >
-            <MainCard title="Create Message">
-                    <Grid container spacing={gridSpacing}>
-                        <Grid item xs={6} md={6} >
-                            <TextField select fullWidth label="Client">
-                                {['hello', 'hi'].map(e => 
-                                    <MenuItem key={e}>{e}</MenuItem>)}
-                            </TextField>
-                        </Grid>
-                        <Grid item xs={6} md={6}>
-                            <TextField select fullWidth label="Target Group">
-                                {['hello', 'hi'].map(e => 
-                                    <MenuItem key={e}>{e}</MenuItem>)}
-                            </TextField>
-                        </Grid>
-                        <Grid item xs={6} md={6} >
-                            <TextField fullWidth label="Title"
-                            
-                            />
-                        </Grid>
-                        <Grid item xs={6} md={6} >
-                            <DateTimePicker
-                                label="Expiration Date&Time"
-                                // value={value}
-                                onChange={e => console.log(e.target.value)}
-                                margin="normal"
-                                fullWidth
-                                renderInput={(params) => <TextField {...params} fullWidth/>}
-                            />
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                            <TextField  fullWidth label="Date De Fin" multiline rows={3}/>
-                        </Grid>
-                        <Grid item xs={12} md={12}>
-                            <Button fullWidth  variant="outlined">Submit</Button>
-                        </Grid>
-                    </Grid>
-                </MainCard>
+                <News />
             </MainLayout>
         </ThemeProvider>
     );

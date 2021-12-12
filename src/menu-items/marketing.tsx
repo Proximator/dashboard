@@ -2,18 +2,7 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconUserCheck, IconBasket, IconMessages, IconLayoutKanban, IconMail, IconCalendar, IconNfc } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconUserCheck,
-    IconBasket,
-    IconMessages,
-    IconLayoutKanban,
-    IconMail,
-    IconCalendar,
-    IconNfc
-};
+import { IconUserCheck, IconBasket, IconMessages, IconBuildingStore, IconNews, IconDeviceTv, IconBrandMessenger } from '@tabler/icons';
 
 // ==============================|| APPLICATION MENU ITEMS ||============================== //
 
@@ -23,27 +12,31 @@ const application = {
     type: 'group',
     children: [
         {
-            id: 'rewards',
-            title: <FormattedMessage id="rewards" />,
+            id: 'emailing',
+            title: <FormattedMessage id="marketingCampaign" />,
             type: 'item',
-            url: '/rewards'
+            icon: IconBuildingStore,
+            url: '/emailing'
         },
         {
             id: 'banners',
             title: <FormattedMessage id="banners" />,
             type: 'item',
+            icon: IconDeviceTv,
             url: '/banners'
         },
         {
             id: 'news',
             title: <FormattedMessage id="news" />,
             type: 'item',
+            icon: IconNews,
             url: '/news'
         },
         {
             id: 'messages',
             title: <FormattedMessage id="messages" />,
             type: 'item',
+            icon: IconBrandMessenger,
             url: '/messages'
         },
         // {

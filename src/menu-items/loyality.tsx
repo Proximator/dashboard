@@ -1,30 +1,20 @@
 // third-party
+import { IconGift } from '@tabler/icons';
 import { FormattedMessage } from 'react-intl';
-
-// assets
-import { IconBrandChrome, IconBrowser, IconHelp, IconHome2, IconGift } from '@tabler/icons';
-
-// constant
-const icons = {
-    IconBrandChrome,
-    IconBrowser,
-    IconHelp,
-    IconGift,
-};
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 
 const other = {
-    id: 'marketing',
-    title: <FormattedMessage id="Dashboard" />,
+    id: 'loyality',
+    title: <FormattedMessage id="loyality" />,
     type: 'group',
     children: [
         {
-            id: 'default',
-            title: <FormattedMessage id="default" />,
+            id: 'rewards',
+            title: <FormattedMessage id="rewards" />,
             type: 'item',
-            icon: IconHome2,
-            url: '/dashboard/default'
+            icon: IconGift,
+            url: '/rewards'
         },
         // {
         //     id: 'sample-page',

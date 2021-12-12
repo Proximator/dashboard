@@ -10,17 +10,17 @@ import { ThemeProvider } from '@mui/material/styles';
 // project imports
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
-import News from '../../src/components/pages/news';
+import MarketingCampaigns from '../../src/components/pages/emailing';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
 
 export default function PageDashboard() {
     const customization = useSelector((state: DefaultRootStateProps) => state.customization);
 
-    return (
+return (
         <ThemeProvider theme={themes(customization)}>
             <MainLayout >
-                <News />
+                <MarketingCampaigns />
             </MainLayout>
         </ThemeProvider>
     );

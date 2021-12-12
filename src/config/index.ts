@@ -28,7 +28,7 @@ const config: {
     outlinedFilled: true,
     theme: 'light', // light, dark
     presetColor: 'default', // default, theme1, theme2, theme3, theme4, theme5, theme6
-    i18n: 'en', // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
+    i18n: 'fr', // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
     rtlLayout: false,
     jwt: {
         secret: 'SECRET-KEY',
