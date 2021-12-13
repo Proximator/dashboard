@@ -29,6 +29,25 @@ const rowsInitial = [
 
 export const RewardsProvider = ({ children } : { children: ReactNode }): JSX.Element => {
     const [rewards, setRewards] = useState<Reward[]>(rowsInitial);
+    const [addreward, setAddReward] = useState<Reward>();
+    const [businessId,setBusinessId] = useState(1);
+    useEffect(() => {
+        axios.get(`http://75.119.140.14:8081/api/v1/loyalty/rewards?businessId=${businessId}`)
+        .then((res)=>{
+            console.log(res.data);
+            let responseData:any = res.data;
+            responseData.map((a: { expireDate: any; id: any; points: any; description: any; expiredate: any; discount: any; targetGender: any; isActive: any; })=>{
+                let data:Reward = createData(a.expireDate,a.id,a.points,a.description,a.expiredate,a.discount,a.targetGender,a.isActive);
+                console.log(a)
+                setRewards(rewards=>[...rewards,data])
+            })
+            
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+        
+    }, []);
 
     const createReward = (reward: Reward): Promise<void> => {
         console.log({reward});
