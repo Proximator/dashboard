@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -7,14 +7,10 @@ import {
     Box,
     CardContent,
     Checkbox,
-    Chip,
     Fab,
     Grid,
     IconButton,
     InputAdornment,
-    MenuItem,
-    Popover,
-    Popper,
     Table,
     TableBody,
     TableCell,
@@ -31,8 +27,8 @@ import {
 import { visuallyHidden } from '@mui/utils';
 
 // project imports
-import RewardsAdd from './add';
-import MainCard from 'ui-component/cards/MainCard';
+import ProductAdd from './add';
+import MainCard from '../../../ui-component/cards/MainCard';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -41,13 +37,20 @@ import PrintIcon from '@mui/icons-material/PrintTwoTone';
 import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/AddTwoTone';
-import { useRewards } from '@/contexts/RewardsContext';
-import { IconEdit, IconTrash } from "@tabler/icons"
-import { Reward } from '@/types';
- 
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+
+// table data
+function createData(creationDate, id, name, expirationDate, gender, status) {
+    return { creationDate, id, name, expirationDate, gender, status };
+}
+
+const rowsInitial = [
+    createData('07.10.2020', 1, 'Te', '07.12.2021', 'all', true),
+    createData('07.10.2020', 2, 'Be', '07.12.2021', 'all', false)
+];
 
 // table sort
-function descendingComparator(a: any, b: any, orderBy: string) {
+function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
     }
@@ -57,21 +60,27 @@ function descendingComparator(a: any, b: any, orderBy: string) {
     return 0;
 }
 
-const getComparator = (order: "desc" | "asc", orderBy: string) =>
-    order === 'desc' ? (a: any, b: any) => descendingComparator(a, b, orderBy) :  (a: any, b: any) => -descendingComparator(a, b, orderBy);
+const getComparator = (order, orderBy) =>
+    order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 
-function stableSort(array: any, comparator: any) {
-    const stabilizedThis = array.map((el: any, index: number) => [el, index]);
-    stabilizedThis.sort((a: any, b: any) => {
+function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
         if (order !== 0) return order;
         return a[1] - b[1];
     });
-    return stabilizedThis.map((el: any) => el[0]);
+    return stabilizedThis.map((el) => el[0]);
 }
 
 // table header options
 const headCells = [
+    {
+        id: 'date',
+        numeric: true,
+        label: 'Creation Date',
+        align: 'center'
+    },
     {
         id: 'id',
         numeric: true,
@@ -79,33 +88,15 @@ const headCells = [
         align: 'center'
     },
     {
-        id: 'points',
+        id: 'name',
         numeric: true,
-        label: 'Points',
-        align: 'center'
-    },
-    {
-        id: 'description',
-        numeric: false,
-        label: 'Description',
+        label: 'Name',
         align: 'center'
     },
     {
         id: 'expirationDate',
         numeric: true,
         label: 'Expiration Date',
-        align: 'center'
-    },
-    {
-        id: 'discount',
-        numeric: true,
-        label: 'Discount',
-        align: 'center'
-    },
-    {
-        id: 'engineering',
-        numeric: true,
-        label: 'Engineering',
         align: 'center'
     },
     {
@@ -145,7 +136,7 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
                 </TableCell>
                 {numSelected > 0 && (
                     <TableCell padding="none" colSpan={7}>
-                        <EnhancedTableToolbar selected={selected} />
+                        <EnhancedTableToolbar numSelected={selected.length} />
                     </TableCell>
                 )}
                 {numSelected <= 0 &&
@@ -195,9 +186,8 @@ EnhancedTableHead.propTypes = {
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
-const EnhancedTableToolbar = ({ selected } : {selected: number[]}) => {
-    const numSelected = selected.length;
-    const { deleteRewards } = useRewards();
+const EnhancedTableToolbar = (props) => {
+    const { numSelected } = props;
 
     return (
         <Toolbar
@@ -222,7 +212,7 @@ const EnhancedTableToolbar = ({ selected } : {selected: number[]}) => {
             <Box sx={{ flexGrow: 1 }} />
             {numSelected > 0 && (
                 <Tooltip title="Delete">
-                    <IconButton size="large" onClick={() => deleteRewards(selected)}>
+                    <IconButton size="large">
                         <DeleteIcon fontSize="small" />
                     </IconButton>
                 </Tooltip>
@@ -235,14 +225,13 @@ EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired
 };
 
+// ==============================|| PRODUCT LIST ||============================== //
 
-const Rewards = () => {
+const BannerList = () => {
     const theme = useTheme();
 
-
-    const [reward, setReward] = useState<Reward | null>(null);
+    // show a right sidebar when clicked on new product
     const [open, setOpen] = useState(false);
-    console.log("here");
     const handleClickOpenDialog = () => {
         setOpen(true);
     };
@@ -256,8 +245,7 @@ const Rewards = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
-    // const [rows, setRows] = useState(rowsInitial);
-    const { rewards: rows, deleteRewards } = useRewards();
+    const [rows, setRows] = useState(rowsInitial);
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -267,7 +255,7 @@ const Rewards = () => {
             const newRows = rows.filter((row) => {
                 let matches = true;
 
-                const properties = ['id', 'description', 'discount', 'gender', 'status'];
+                const properties = ['id', 'creationDate', 'name', 'expirationDate', 'gender'];
                 let containsQuery = false;
 
                 properties.forEach((property) => {
@@ -328,16 +316,11 @@ const Rewards = () => {
         setPage(0);
     };
 
-    const editReward = (reward: Reward) => {
-        setReward(reward);
-        handleClickOpenDialog();
-    }
-
-    const isSelected = (name) => selected.indexOf(name) !== -1;
+    const isSelected = (id) => selected.indexOf(id) !== -1;
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <MainCard title="Rewards List" content={false}>
+        <MainCard title="Banners List" content={false}>
             <CardContent>
                 <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -350,7 +333,7 @@ const Rewards = () => {
                                 )
                             }}
                             onChange={handleSearch}
-                            placeholder="Search Reward"
+                            placeholder="Search Banner"
                             value={search}
                             size="small"
                         />
@@ -372,7 +355,8 @@ const Rewards = () => {
                             </IconButton>
                         </Tooltip>
 
-                        <Tooltip title="Add Reward">
+                        {/* product add & dialog */}
+                        <Tooltip title="Add Product">
                             <Fab
                                 color="primary"
                                 size="small"
@@ -382,7 +366,7 @@ const Rewards = () => {
                                 <AddIcon fontSize="small" />
                             </Fab>
                         </Tooltip>
-                        {open && <RewardsAdd open={open} handleCloseDialog={handleCloseDialog} reward={reward} />}
+                        <ProductAdd open={open} handleCloseDialog={handleCloseDialog} />
                     </Grid>
                 </Grid>
             </CardContent>
@@ -403,7 +387,7 @@ const Rewards = () => {
                     <TableBody>
                         {stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row: Reward, index: number) => {
+                            .map((row, index) => {
                                 /** Make sure no display bugs if row isn't an OrderData object */
                                 if (typeof row === 'number') return null;
                                 const isItemSelected = isSelected(row.id);
@@ -427,37 +411,25 @@ const Rewards = () => {
                                                 }}
                                             />
                                         </TableCell>
+                                        <TableCell align="center">{row.creationDate}</TableCell>
                                         <TableCell align="center">{row.id}</TableCell>
-                                        <TableCell align="center">{row.points}</TableCell>
-                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{row.name}</TableCell>
                                         <TableCell align="center">{row.expirationDate}</TableCell>
-                                        <TableCell align="center">{row.discount}</TableCell>
-                                        <TableCell align="center">{row.isEngineering === true ? "true": "false"}</TableCell>
-                                        <TableCell align="center">{row.targetGender}</TableCell>
-                                        <TableCell align="center">{row.isActive === true ? "active": "inactive"}</TableCell>
+                                        <TableCell align="center">{row.gender}</TableCell>
+                                        <TableCell align="center">{row.status === true ? "active": "inactive"}</TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
-                                            <Grid container>
-                                                <Grid item xs={6} md={6} lg={6} sx={{pr: 0}}>
-                                                    <IconButton size="medium">
-                                                        <IconEdit onClick={() => editReward(row)} />
-                                                    </IconButton>
-                                                </Grid>
-                                                <Grid item xs={6} md={6} lg={6}>
-                                                    <IconButton size="medium">
-                                                        <IconTrash onClick={() => deleteRewards([row.id])}  />
-                                                    </IconButton>
-                                                </Grid>
-                                            </Grid>
+                                            <IconButton size="large">
+                                                <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
-                                                
                                 );
                             })}
                         {emptyRows > 0 && (
                             <TableRow
-                            style={{
-                                height: 53 * emptyRows
-                            }}
+                                style={{
+                                    height: 53 * emptyRows
+                                }}
                             >
                                 <TableCell colSpan={6} />
                             </TableRow>
@@ -480,4 +452,4 @@ const Rewards = () => {
     );
 };
 
-export default Rewards;
+export default BannerList;

@@ -12,28 +12,30 @@ import Snackbar from '../src/ui-component/extended/Snackbar';
 import NavigationScroll from '../src/layout/NavigationScroll';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import {RewardsProvider} from '../src/contexts/RewardsContext'
-import '../src/_mockApis';
+import { RewardsProvider } from '../src/contexts/RewardsContext';
+import { AuthProvider } from '@/contexts/AuthContext';
 import '../src/styles/scss/style.scss';
 
 export default function MyApp({ Component, pageProps }: any) {
-    return (
-        <Provider store={store}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <StyledEngineProvider injectFirst>
-                    <CssBaseline />
-                    <RTLLayout>
-                        <Locales>
-                            <NavigationScroll>
-                                <RewardsProvider>
-                                    <Component {...pageProps} />
-                                    <Snackbar />
-                                </RewardsProvider>
-                            </NavigationScroll>
-                        </Locales>
-                    </RTLLayout>
-                </StyledEngineProvider>
-            </LocalizationProvider>
-        </Provider>
-    );
+  return (
+    <AuthProvider>
+      <Provider store={store}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <StyledEngineProvider injectFirst>
+            <CssBaseline />
+            <RTLLayout>
+              <Locales>
+                <NavigationScroll>
+                  <RewardsProvider>
+                    <Component {...pageProps} />
+                    <Snackbar />
+                  </RewardsProvider>
+                </NavigationScroll>
+              </Locales>
+            </RTLLayout>
+          </StyledEngineProvider>
+        </LocalizationProvider>
+      </Provider>
+    </AuthProvider>
+  );
 }

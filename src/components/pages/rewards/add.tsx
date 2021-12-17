@@ -1,18 +1,12 @@
 import PropTypes from 'prop-types';
 import { forwardRef, useState, useRef, useEffect } from 'react';
 
-// material-ui
-import { useTheme, styled } from '@mui/material/styles';
 import {
     Button,
-    CardMedia,
-    Chip,
-    CircularProgress,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
-    Fab,
     FormControlLabel,
     FormGroup,
     Grid,
@@ -51,7 +45,7 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
         points: 0,
         discount: 0,
         expirationDate: new Date().toDateString(),
-        gender: 'all',
+        targetGender: 'ALL',
         status: true,
     });
     console.log({values});
@@ -100,17 +94,6 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
             <DialogTitle>Add Rewards</DialogTitle>
             <DialogContent>
                 <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
-                    {/* <Grid item xs={12}>
-                        <TextField id="outlined-basic1" fullWidth label="Enter Product Name*" defaultValue="Iphone 11 Pro Max" />
-                    </Grid> */}
-                    <Grid item lg={12} xs={12}>
-                        <DesktopDatePicker
-                        label="Start Date"
-                        // value={value}
-                        onChange={time => console.log(time)}
-                        renderInput={(params) => <TextField {...params} fullWidth />}
-                        />
-                    </Grid>
                     <Grid item lg={12} xs={12}>
                         <DesktopDatePicker
                         label="Expiration Date"
@@ -151,16 +134,16 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                             InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                         />
                     </Grid>
-                    <Grid item md={6} xs={12}>
+                    <Grid item md={12} xs={12}>
                         <TextField
                             id="standard-select-currency"
                             select
                             label="Select Gender"
-                            value={values.gender}
+                            value={values.targetGender}
                             fullWidth
-                            onChange={(e) => setValues({...values, gender: e.target.value})}
+                            onChange={(e) => setValues({...values, targetGender: e.target.value})}
                         >
-                            {['All', 'Male', 'Female'].map((option) => (
+                            {['ALL', 'MALE', 'FEMALE'].map((option) => (
                                 <MenuItem key={option} value={option}>
                                     {option}
                                 </MenuItem>
@@ -168,7 +151,10 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                         </TextField>
                     </Grid>
                     <Grid item md={6} xs={12}>
-                            <FormControlLabel control={<Switch checked={values.status} onChange={() => setValues({...values, status: !values.status})}/>} label="Active" />
+                            <FormControlLabel control={<Switch checked={values.isActive} onChange={() => setValues({...values, isActive: !values.isActive})}/>} label="Active" />
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                            <FormControlLabel control={<Switch checked={values.isEngineering} onChange={() => setValues({...values, isEngineering: !values.isEngineering})}/>} label="Engineering" />
                     </Grid>
                 </Grid>
             </DialogContent>
@@ -176,7 +162,7 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                 <AnimateButton >
                     <Button variant="contained" onClick={async () => {
                     console.log('here');
-                    await createReward(createData('07.10.2020', 1, 23, 'reward 1', '07/12/2021', 20, 'all', true));
+                    await createReward(values);
                     console.log('dome');
                 }}>Create</Button>
                 </AnimateButton>

@@ -21,7 +21,6 @@ export default function PageDashboard() {
         <ThemeProvider theme={themes(customization)}>
             <MainLayout >
                 <Product />
-                {/* <ProductList initialRows={initialRows}/> */}
             </MainLayout>
         </ThemeProvider>
     );
