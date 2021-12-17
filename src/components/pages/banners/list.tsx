@@ -39,6 +39,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
+//context imports
+import { useBanners } from '@/contexts/BannersContext';
+
 // table data
 function createData(creationDate, id, name, expirationDate, gender, status) {
     return { creationDate, id, name, expirationDate, gender, status };
@@ -245,7 +248,8 @@ const BannerList = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
-    const [rows, setRows] = useState(rowsInitial);
+    //const [rows, setRows] = useState(rowsInitial);
+    const { banners: rows } = useBanners();
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
