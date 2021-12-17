@@ -26,6 +26,11 @@ export interface TabsProps {
     index: number;
 }
 
+export type Gender = "all" | "male" | "female";
+
+export interface Reward { date: string, id?: number, points: number, description: string, expirationDate: string, discount: number, gender: string, status: boolean }
+
+
 export interface GenericCardProps {
     title?: string;
     primary?: string | number | undefined;

@@ -10,32 +10,9 @@ import { ThemeProvider } from '@mui/material/styles';
 // project imports
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
-import Product from '../../src/views/application/customer/Product';
+import Product from '../../src/components/pages/rewards';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
-
-const initialRows = [{
-    id: 11,
-    name: 'hello',
-    created: Date.now(),
-    description: 'hi',
-    offerPrice: 12,
-    salePrice: 13,
-    status: 'available',
-    gender: '',
-    inStock: false,
-    rating: 5
-},{
-    id: 12,
-    name: 'hello',
-    created: Date.now(),
-    offerPrice: 12,
-    salePrice: 13,
-    description: 'hi',
-    status: 'available',
-    isStock: true,
-    rating: 5
-}]
 
 export default function PageDashboard() {
     const customization = useSelector((state: DefaultRootStateProps) => state.customization);
