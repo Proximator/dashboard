@@ -1,3 +1,5 @@
+import { Rowing } from '@mui/icons-material';
+import axios from 'axios';
 import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
 import { Reward, Gender } from "../types";
@@ -26,16 +28,55 @@ const rowsInitial = [
 ];
 
 export const RewardsProvider = ({ children } : { children: ReactNode }): JSX.Element => {
+
     const [rewards, setRewards] = useState<Reward[]>(rowsInitial);
+    const [businessId,setBusinessId] = useState(1);
+    useEffect(() => {
+        axios.get(`http://75.119.140.14:8081/api/v1/loyalty/rewards?businessId=${businessId}`)
+        .then((res)=>{
+            console.log(res.data);
+            let responseData:any = res.data;
+            responseData.map((a: { expireDate: any; id: any; points: any; description: any; expiredate: any; discount: any; targetGender: any; isActive: any; })=>{
+                let data:Reward = createData(a.expireDate,a.id,a.points,a.description,a.expiredate,a.discount,a.targetGender,a.isActive);
+                console.log(a)
+                setRewards(rewards=>[...rewards,data])
+            })
+            
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+        
+    }, []);
 
     const createReward = (reward: Reward): Promise<void> => {
         console.log({reward});
         return new Promise((res) => {
-            setTimeout(() => {
-                setRewards((prev) => [...prev, reward]);
-                console.log('done from function')
-                res();
-            }, 300);
+            try{
+                // setTimeout(() => {
+                //     setAddReward(reward);
+                //     console.log('done from RewardsContext')
+                //     res();
+                // }, 3000);
+                axios.post('http://75.119.140.14:8081/api/v1/loyalty/rewards',{
+                    reward
+                    // "brandId": 0,
+                    // "businessId": 0,
+                    // "description": "string",
+                    // "discount": 0,
+                    // "expireDate": "2021-12-07T13:05:40.236Z",
+                    // "id": 0,
+                    // "isActive": true,
+                    // "isEngineering": true,
+                    // "points": 0,
+                    // "targetGender": "ALL",
+                    // "bussiness":"slkdf"
+                })
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err.message));
+            }catch(error){
+                console.log(error);
+            }
         })
     } 
 

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef, useState, useRef, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
@@ -122,7 +123,13 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
     const { createReward } = useRewards(); 
 
     // handle category change dropdown
-    const [gender, setGender] = useState('All'); 
+    const [startDateTime,setStartDateTime] = useState('12/07/2021 11:21 am');
+    const [expirationDateTime,setExpirationDateTime] = useState('12/07/2021 11:21 am');
+    const [description,setDescription] = useState('');
+    const [points,setPoints] = useState(0); 
+    const [discount,setDiscount] = useState(0);
+    const [gender, setGender] = useState('All');
+    const [status,setStatus] = useState(true);
     const [currency, setCurrency] = useState('2');
     const handleSelectChange = (event) => {
         if (event?.target.value) setCurrency(event?.target.value);
@@ -182,10 +189,10 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         <TextField id="outlined-basic1" fullWidth label="Enter Product Name*" defaultValue="Iphone 11 Pro Max" />
                     </Grid> */}
                     <Grid item lg={12} xs={12}>
-                        <DesktopDatePicker
-                        label="Start Date"
-                        // value={value}
-                        onChange={time => console.log(time)}
+                        <DateTimePicker
+                        label="Start Date&Time"
+                        value={startDateTime}
+                        onChange={(newValue) => setStartDateTime(newValue)}
                         margin="normal"
                         fullWidth
                         renderInput={(params) => <TextField {...params} fullWidth />}
@@ -194,8 +201,8 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                     <Grid item lg={12} xs={12}>
                         <DesktopDatePicker
                         label="Expiration Date&Time"
-                        // value={value}
-                        onChange={e => console.log(e.target.value)}
+                        value={expirationDateTime}
+                        onChange={newValue => setExpirationDateTime(newValue)}
                         margin="normal"
                         fullWidth
                         renderInput={(params) => <TextField {...params} fullWidth/>}
@@ -208,6 +215,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             multiline
                             rows={3}
                             label="Description"
+                            onChange={e => setDescription(e.target.value)}
                             placeholder="Write your description here"
                         />
                     </Grid>
@@ -231,7 +239,8 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         <TextField
                             label="Points"
                             id="filled-start-adornment1"
-                            value={0}
+                            value={points}
+                            onChange={e => setPoints(e.target.value)}
                             InputProps={{ startAdornment: <InputAdornment position="start">#</InputAdornment> }}
                         />
                     </Grid>
@@ -239,7 +248,8 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         <TextField
                             label="Discount"
                             id="filled-start-adornment2"
-                            value="10"
+                            value={discount}
+                            onChange={e => setDiscount(e.target.value)}
                             InputProps={{ startAdornment: <InputAdornment position="start">$</InputAdornment> }}
                         />
                     </Grid>
@@ -248,7 +258,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                             id="standard-select-currency"
                             select
                             label="Select Gender"
-                            value={"All"}
+                            value={gender}
                             fullWidth
                             onChange={(e) => setGender(e.target.value)}
                             // helperText="Please select a gender"
@@ -261,7 +271,11 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
                         </TextField>
                     </Grid>
                     <Grid item md={6} xs={12}>
-                            <FormControlLabel control={<Switch defaultChecked />} label="Active" />
+                            <FormControlLabel 
+                                control={<Switch defaultChecked />} 
+                                label="Active" 
+                                onChange={e => setStatus(e.target.value)}
+                                />
                     </Grid>
 
                     {/* <Grid item md={6} xs={12}>
@@ -380,10 +394,10 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
             </DialogContent>
             <DialogActions>
                 <AnimateButton >
-                    <Button variant="contained" onClick={async () => {
+                    <Button variant="contained" onClick={async() => {
                     console.log('here');
-                    await createReward(createData('07.10.2020', 1, 23, 'reward 1', '07/12/2021', 20, 'all', true));
-                    console.log('dome');
+                    await createReward(createData(startDateTime, uuidv4(), points, description, expirationDateTime, discount, gender, status));
+                    console.log("startDateTime:",startDateTime);
                 }}>Create</Button>
                 </AnimateButton>
                 <Button variant="text" color="error" onClick={handleCloseDialog}>
