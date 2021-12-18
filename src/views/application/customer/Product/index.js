@@ -420,7 +420,7 @@ const Product = () => {
                                         <TableCell align="center">{row.points}</TableCell>
                                         <TableCell align="center">{row.description}</TableCell>
                                         <TableCell align="center">{row.expirationDate}</TableCell>
-                                        <TableCell>{row.discount}</TableCell>
+                                        <TableCell align="center">{row.discount}</TableCell>
                                         <TableCell align="center">{row.gender}</TableCell>
                                         <TableCell align="center">{row.status === true ? "active": "inactive"}</TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
