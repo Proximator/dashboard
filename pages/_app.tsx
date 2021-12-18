@@ -15,6 +15,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {RewardsProvider} from '../src/contexts/RewardsContext'
 import '../src/_mockApis';
 import '../src/styles/scss/style.scss';
+import { BannersProvider } from '@/contexts/BannersContext';
 
 export default function MyApp({ Component, pageProps }: any) {
     return (
@@ -26,8 +27,10 @@ export default function MyApp({ Component, pageProps }: any) {
                         <Locales>
                             <NavigationScroll>
                                 <RewardsProvider>
-                                    <Component {...pageProps} />
-                                    <Snackbar />
+                                    <BannersProvider>
+                                        <Component {...pageProps} />
+                                        <Snackbar />
+                                    </BannersProvider>
                                 </RewardsProvider>
                             </NavigationScroll>
                         </Locales>

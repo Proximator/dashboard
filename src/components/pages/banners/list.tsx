@@ -417,9 +417,9 @@ const BannerList = () => {
                                         </TableCell>
                                         <TableCell align="center">{row.creationDate}</TableCell>
                                         <TableCell align="center">{row.id}</TableCell>
-                                        <TableCell align="center">{row.name}</TableCell>
-                                        <TableCell align="center">{row.expirationDate}</TableCell>
-                                        <TableCell align="center">{row.gender}</TableCell>
+                                        <TableCell align="center">{row.link}</TableCell>
+                                        <TableCell align="center">{row.expireAt}</TableCell>
+                                        <TableCell align="center">{row.targetGender}</TableCell>
                                         <TableCell align="center">{row.status === true ? "active": "inactive"}</TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton size="large">

@@ -1,26 +1,29 @@
 import axios from 'axios';
 import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
-interface Banner { creationDate: Date, id?: number, name?: string, expirationDate: string, gender: string, status: boolean }
+interface Banner { brandId:number, bussnessId:number, expireAt: Date, id?: number, imageURL: string, status: boolean, link:string, targetGender: string}
 
 interface BannersContextType {
     banners: Banner[];
     createBanner: (banner: Banner) => Promise<void>;
 }
 
-export const BannersContext = createContext<BannersContextType>(null as unknown as BannersContextType);
+export const BannersContext = createContext<BannersContextType>({
+    banners: [],
+    createBanner: (banner: Banner) => new Promise((res) => res()),
+}as BannersContextType);
 
-const createData = (creationDate: any, id?: number, name?: string, expirationDate: any, gender: string, status: boolean): Banner => {
-    return { creationDate, id, expirationDate, gender, status };
+const createData = (brandId:number, bussnessId:number, expireAt: any, id?: number, imageURL: string, status: boolean, link:string, targetGender: string): Banner => {
+    return { brandId, bussnessId, expireAt, id, imageURL, status, link, targetGender};
 }
 
 const rowsInitial = [
-    createData('07.10.2020', 1, 'mahmud', '07/12/2021', 'all', true),
+    createData(1, 1, '07/12/2021', 1, 'https://firebasestorage.googleapis.com', true,"www.ahlancard.ma","all"),
 ];
 
 export const BannersProvider = ({ children } : { children: ReactNode }): JSX.Element => {
     console.log("into the provider")
-    const [banners, setBanners] = useState<Banner[]>([]);
+    const [banners, setBanners] = useState<Banner[]>(rowsInitial);
     const [addreward, setAddReward] = useState<Banner>();
     const [businessId,setBusinessId] = useState(1);
     useEffect(() => {
@@ -29,8 +32,8 @@ export const BannersProvider = ({ children } : { children: ReactNode }): JSX.Ele
         .then((res)=>{
             console.log(res.data);
             let responseData:any = res.data;
-            responseData.map((a: { creationDate: any, id?: number, name?: string, expirationDate: any, gender: string, status: boolean })=>{
-                let data:Banner = createData(a.creationDate, a.id, a.name, a.expirationDate, a.gender, a.status);
+            responseData.map((a: { brandId:number, bussnessId:number, expireAt: any, id?: number, imageURL: string, status: boolean, link:string, targetGender: string })=>{
+                let data:Banner = createData(a.brandId, a.bussnessId, a.expireAt, a.id, a.imageURL, a.status, a.link, a.targetGender);
                 console.log(a)
                 setBanners(banner=>[...banner,data])
             })
