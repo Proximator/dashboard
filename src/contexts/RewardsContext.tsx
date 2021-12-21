@@ -21,10 +21,11 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
   const { businessId } = useAuth();
   useEffect(() => {
     axios
-      .get(`loyalty/rewards?businessId=${businessId}&brandId=${1}`)
+      .get(`loyalty/rewards?businessId=${businessId}`)
       .then((res) => {
         console.log(res.data);
-        const { data } = res;
+        let { data } = res;
+        if(data === '')data = [];
         setRewards(data as Reward[]);
       })
       .catch((error) => {

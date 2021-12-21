@@ -44,31 +44,10 @@ import AddIcon from '@mui/icons-material/AddTwoTone';
 import { useRewards } from '@/contexts/RewardsContext';
 import { IconEdit, IconTrash } from "@tabler/icons"
 import { Reward } from '@/types';
- 
+import { descendingComparator, getComparator, stableSort} from '../../../utils/table'
 
 // table sort
-function descendingComparator(a: any, b: any, orderBy: string) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
 
-const getComparator = (order: "desc" | "asc", orderBy: string) =>
-    order === 'desc' ? (a: any, b: any) => descendingComparator(a, b, orderBy) :  (a: any, b: any) => -descendingComparator(a, b, orderBy);
-
-function stableSort(array: any, comparator: any) {
-    const stabilizedThis = array.map((el: any, index: number) => [el, index]);
-    stabilizedThis.sort((a: any, b: any) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) return order;
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el: any) => el[0]);
-}
 
 // table header options
 const headCells = [
@@ -401,6 +380,7 @@ const Rewards = () => {
                         selected={selected}
                     />
                     <TableBody>
+                        {console.log('hello', {rows})}
                         {stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: Reward, index: number) => {
