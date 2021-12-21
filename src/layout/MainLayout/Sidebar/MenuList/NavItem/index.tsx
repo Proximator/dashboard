@@ -1,5 +1,6 @@
 import React, { ForwardRefExoticComponent, RefAttributes, forwardRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -11,6 +12,7 @@ import { DefaultRootStateProps, LinkTarget, NavItemType } from '../../../../../t
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import router, { useRouter } from 'next/router';
 
 export interface NavItemProps {
     item: NavItemType;
@@ -21,7 +23,7 @@ export interface NavItemProps {
 
 const NavItem = ({ item, level }: NavItemProps) => {
     const theme = useTheme();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch();    
     const customization = useSelector((state: DefaultRootStateProps) => state.customization);
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
 
@@ -52,9 +54,12 @@ const NavItem = ({ item, level }: NavItemProps) => {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
     }
 
-    const itemHandler = (id: string) => {
-        dispatch({ type: MENU_OPEN, id });
-        matchesSM && dispatch({ type: SET_MENU, opened: false });
+    const itemHandler = (id: string, e) => {
+        console.log({id});
+        e.preventDefault();
+        // router.push(`/${id}`);
+        // dispatch({ type: MENU_OPEN, id })    ;
+        // matchesSM && dispatch({ type: SET_MENU, opened: false });
     };
 
     // active menu item on page load
@@ -71,45 +76,47 @@ const NavItem = ({ item, level }: NavItemProps) => {
     }, []);
 
     return (
-        <ListItemButton
-            {...listItemProps}
-            disabled={item.disabled}
-            sx={{
-                borderRadius: `${customization.borderRadius}px`,
-                mb: 0.5,
-                alignItems: 'flex-start',
-                backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
-                py: level > 1 ? 1 : 1.25,
-                pl: `${level * 24}px`
-            }}
-            selected={customization.isOpen.findIndex((id) => id === item.id) > -1}
-            onClick={() => itemHandler(item.id!)}
-        >
-            <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
-            <ListItemText
-                primary={
-                    <Typography variant={customization.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
-                        {item.title}
-                    </Typography>
-                }
-                secondary={
-                    item.caption && (
-                        <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
-                            {item.caption}
+        <Link href={`/${item.id}`} passHref>
+            <ListItemButton
+                {...listItemProps}
+                disabled={item.disabled}
+                sx={{
+                    borderRadius: `${customization.borderRadius}px`,
+                    mb: 0.5,
+                    alignItems: 'flex-start',
+                    backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
+                    py: level > 1 ? 1 : 1.25,
+                    pl: `${level * 24}px`
+                }}
+                selected={customization.isOpen.findIndex((id) => id === item.id) > -1}
+                // onClick={(e) => itemHandler( item.id!, e)}
+            >
+                <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
+                <ListItemText
+                    primary={
+                        <Typography variant={customization.isOpen.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
+                            {item.title}
                         </Typography>
-                    )
-                }
-            />
-            {item.chip && (
-                <Chip
-                    color={item.chip.color}
-                    variant={item.chip.variant}
-                    size={item.chip.size}
-                    label={item.chip.label}
-                    avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
+                    }
+                    secondary={
+                        item.caption && (
+                            <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
+                                {item.caption}
+                            </Typography>
+                        )
+                    }
                 />
-            )}
-        </ListItemButton>
+                {item.chip && (
+                    <Chip
+                        color={item.chip.color}
+                        variant={item.chip.variant}
+                        size={item.chip.size}
+                        label={item.chip.label}
+                        avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
+                    />
+                )}
+            </ListItemButton>
+        </Link>
     );
 };
 
