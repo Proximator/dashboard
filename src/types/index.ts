@@ -28,7 +28,6 @@ export interface TabsProps {
 export type TargetGender = 'ALL' | 'MALE' | 'FEMALE';
 
 export interface Reward {
-  date: string;
   id?: number;
   points: number;
   description: string;
@@ -39,6 +38,7 @@ export interface Reward {
   isEngineering: boolean;
 }
 
+export type Objects = Reward;
 export interface GenericCardProps {
   title?: string;
   primary?: string | number | undefined;

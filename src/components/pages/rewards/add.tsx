@@ -8,17 +8,12 @@ import {
     DialogContent,
     DialogTitle,
     FormControlLabel,
-    FormGroup,
     Grid,
-    Input,
     InputAdornment,
-    InputLabel,
     MenuItem,
-    Select,
     Slide,
     Switch,
     TextField,
-    Typography
 } from '@mui/material';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
@@ -29,25 +24,26 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { gridSpacing } from 'store/constant';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { useRewards } from '@/contexts/RewardsContext';
-import { Reward } from '@/types';
+import { Reward, TargetGender } from '@/types';
 const Transition = forwardRef((props, ref) => <Slide direction="left" ref={ref} {...props} />);
 
 
 // ==============================|| PRODUCT ADD DIALOG ||============================== //
 
-const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleCloseDialog: () => void, reward: Reward}) => {
+const ProductAdd = ({ open, handleCloseDialog, reward = {
+    description: '',
+    points: 0,
+    discount: 0,
+    expireDate: new Date().toDateString(),
+    targetGender: 'ALL',
+    isActive: false,
+    isEngineering: false
+} }: {open: boolean, handleCloseDialog: () => void, reward?: Reward }) => {
 
     const { createReward } = useRewards(); 
 
     // handle category change dropdown
-    const [values, setValues] = useState<Reward>(reward || {
-        description: '',
-        points: 0,
-        discount: 0,
-        expireDate: new Date().toDateString(),
-        targetGender: 'ALL',
-    });
-    console.log({values});
+    const [values, setValues] = useState<Reward>(reward!);
     // set image upload progress
     const [progress, setProgress] = useState(0);
     const progressRef = useRef(() => {});
@@ -140,7 +136,7 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                             label="Select Gender"
                             value={values.targetGender}
                             fullWidth
-                            onChange={(e) => setValues({...values, targetGender: e.target.value})}
+                            onChange={(e) => setValues({...values, targetGender: e.target.value as TargetGender})}
                         >
                             {['ALL', 'MALE', 'FEMALE'].map((option) => (
                                 <MenuItem key={option} value={option}>
