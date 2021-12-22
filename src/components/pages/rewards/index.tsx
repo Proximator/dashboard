@@ -1,5 +1,4 @@
-import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useState, MouseEventHandler, MouseEvent, ChangeEventHandler } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -28,14 +27,12 @@ import {
     Tooltip,
     Typography
 } from '@mui/material';
-import { visuallyHidden } from '@mui/utils';
 
 // project imports
 import RewardsAdd from './add';
 import MainCard from 'ui-component/cards/MainCard';
 
 // assets
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterListTwoTone';
 import PrintIcon from '@mui/icons-material/PrintTwoTone';
 import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
@@ -45,11 +42,7 @@ import { useRewards } from '@/contexts/RewardsContext';
 import { IconEdit, IconTrash } from "@tabler/icons"
 import { Reward } from '@/types';
 import { descendingComparator, getComparator, stableSort} from '../../../utils/table'
-
-// table sort
-
-
-// table header options
+import { EnhancedTableHead } from '../../table/EnhancedTableHead';
 const headCells = [
     {
         id: 'id',
@@ -101,127 +94,14 @@ const headCells = [
     },
 ];
 
-// ==============================|| TABLE HEADER ||============================== //
-
-function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, theme, selected }) {
-    const createSortHandler = (property) => (event) => {
-        onRequestSort(event, property);
-    };
-
-    return (
-        <TableHead>
-            <TableRow>
-                <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts'
-                        }}
-                    />
-                </TableCell>
-                {numSelected > 0 && (
-                    <TableCell padding="none" colSpan={7}>
-                        <EnhancedTableToolbar selected={selected} />
-                    </TableCell>
-                )}
-                {numSelected <= 0 &&
-                    headCells.map((headCell) => (
-                        <TableCell
-                            key={headCell.id}
-                            align={headCell.align}
-                            padding={headCell.disablePadding ? 'none' : 'normal'}
-                            sortDirection={orderBy === headCell.id ? order : false}
-                        >
-                            <TableSortLabel
-                                active={orderBy === headCell.id}
-                                direction={orderBy === headCell.id ? order : 'asc'}
-                                onClick={createSortHandler(headCell.id)}
-                            >
-                                {headCell.label}
-                                {orderBy === headCell?.id ? (
-                                    <Box component="span" sx={visuallyHidden}>
-                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                    </Box>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                    ))}
-                {numSelected <= 0 && (
-                    <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
-                        <Typography variant="subtitle1" sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}>
-                            Action
-                        </Typography>
-                    </TableCell>
-                )}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-EnhancedTableHead.propTypes = {
-    theme: PropTypes.object,
-    selected: PropTypes.array,
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired
-};
-
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
-
-const EnhancedTableToolbar = ({ selected } : {selected: number[]}) => {
-    const numSelected = selected.length;
-    const { deleteRewards } = useRewards();
-
-    return (
-        <Toolbar
-            sx={{
-                p: 0,
-                pl: 1,
-                pr: 1,
-                ...(numSelected > 0 && {
-                    color: (theme) => theme.palette.secondary.main
-                })
-            }}
-        >
-            {numSelected > 0 ? (
-                <Typography color="inherit" variant="h4">
-                    {numSelected} Selected
-                </Typography>
-            ) : (
-                <Typography variant="h6" id="tableTitle">
-                    Nutrition
-                </Typography>
-            )}
-            <Box sx={{ flexGrow: 1 }} />
-            {numSelected > 0 && (
-                <Tooltip title="Delete">
-                    <IconButton size="large" onClick={() => deleteRewards(selected)}>
-                        <DeleteIcon fontSize="small" />
-                    </IconButton>
-                </Tooltip>
-            )}
-        </Toolbar>
-    );
-};
-
-EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired
-};
-
 
 const Rewards = () => {
     const theme = useTheme();
-
-
-    const [reward, setReward] = useState<Reward | null>(null);
+    
+    const { rewards: rows, deleteRewards } = useRewards();
     const [open, setOpen] = useState(false);
-    console.log("here");
+
     const handleClickOpenDialog = () => {
         setOpen(true);
     };
@@ -229,14 +109,13 @@ const Rewards = () => {
         setOpen(false);
     };
 
+    const [reward, setReward] = useState<Reward | undefined>();
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('calories');
-    const [selected, setSelected] = useState([]);
+    const [orderBy, setOrderBy] = useState('id');
+    const [selected, setSelected] = useState<number[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [search, setSearch] = useState('');
-    // const [rows, setRows] = useState(rowsInitial);
-    const { rewards: rows, deleteRewards } = useRewards();
 
     const handleSearch = (event) => {
         const newString = event?.target.value;
@@ -272,18 +151,18 @@ const Rewards = () => {
         setOrderBy(property);
     };
 
-    const handleSelectAllClick = (event) => {
+    const handleSelectAllClick = (event: any) => {
         if (event.target.checked) {
-            const newSelectedId = rows.map((n) => n.id);
+            const newSelectedId: number[] = rows.filter(n => n.id).map((n) => n.id as number);
             setSelected(newSelectedId);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, id) => {
+    const handleClick = (event: MouseEventHandler<HTMLTableCellElement>, id: number) => {
         const selectedIndex = selected.indexOf(id);
-        let newSelected = [];
+        let newSelected: number[] = [];
 
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, id);
@@ -298,11 +177,11 @@ const Rewards = () => {
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (event: MouseEvent<HTMLButtonElement, MouseEvent>, newPage: number) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = (event: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined) => {
         if (event?.target.value) setRowsPerPage(parseInt(event?.target.value, 10));
         setPage(0);
     };
@@ -372,6 +251,7 @@ const Rewards = () => {
                     <EnhancedTableHead
                         numSelected={selected.length}
                         order={order}
+                        headCells={headCells}
                         orderBy={orderBy}
                         onSelectAllClick={handleSelectAllClick}
                         onRequestSort={handleRequestSort}
@@ -380,7 +260,6 @@ const Rewards = () => {
                         selected={selected}
                     />
                     <TableBody>
-                        {console.log('hello', {rows})}
                         {stableSort(rows, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row: Reward, index: number) => {

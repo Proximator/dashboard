@@ -77,7 +77,7 @@ const AppBar = ({ ...others }) => {
                             <Button color="inherit" component={MuiLink}>
                                 Home
                             </Button>
-                            <Button color="inherit" component={MuiLink} href="/dashboard" target="_blank">
+                            <Button color="inherit" component={MuiLink} href="/dashboard/default" target="_blank">
                                 Dashboard
                             </Button>
                             <Button color="inherit" component={MuiLink} href="https://codedthemes.gitbook.io/berry" target="_blank">

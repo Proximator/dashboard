@@ -76,7 +76,7 @@ const NavItem = ({ item, level }: NavItemProps) => {
     }, []);
 
     return (
-        <Link href={`/${item.id}`} passHref>
+        <Link href={`/${item.url}`} passHref>
             <ListItemButton
                 {...listItemProps}
                 disabled={item.disabled}

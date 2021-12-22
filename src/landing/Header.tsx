@@ -110,7 +110,7 @@ const HeaderPage = () => {
                                         <AnimateButton>
                                             <Button
                                                 component={MuiLink}
-                                                href="/dashboard"
+                                                href="/dashboard/default"
                                                 target="_blank"
                                                 size="large"
                                                 variant="contained"

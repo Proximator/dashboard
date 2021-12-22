@@ -1,5 +1,5 @@
 import axios from '../utils/axios';
-import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
+import { ReactNode, createContext, useContext, useState, useEffect, SetStateAction, Dispatch } from 'react';
 
 import { Reward } from '../types';
 import { useAuth } from './AuthContext';
@@ -13,7 +13,7 @@ interface RewardsContextType {
 export const RewardsContext = createContext<RewardsContextType>({
   rewards: [],
   createReward: (reward: Reward) => new Promise((res) => res()),
-  deleteRewards: (ids: number[]) => new Promise((res) => res())
+  deleteRewards: (ids: number[]) => new Promise((res) => res()),
 } as RewardsContextType);
 
 export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Element => {
