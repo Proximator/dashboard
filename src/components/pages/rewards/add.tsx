@@ -34,19 +34,21 @@ const Transition = forwardRef((props, ref) => <Slide direction="left" ref={ref} 
 
 
 // ==============================|| PRODUCT ADD DIALOG ||============================== //
-
-const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleCloseDialog: () => void, reward: Reward}) => {
-
-    const { createReward } = useRewards(); 
-
-    // handle category change dropdown
-    const [values, setValues] = useState<Reward>(reward || {
+const productInitialValues = {
         description: '',
         points: 0,
         discount: 0,
         expireDate: new Date().toDateString(),
         targetGender: 'ALL',
-    });
+    }
+
+const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleCloseDialog: () => void, reward: Reward}) => {
+
+    const { createReward, updateReward } = useRewards(); 
+
+    // handle category change dropdown
+
+    const [values, setValues] = useState<Reward>(reward || productInitialValues);
     console.log({values});
     // set image upload progress
     const [progress, setProgress] = useState(0);
@@ -90,7 +92,7 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                 }
             }}
         >
-            <DialogTitle>Add Rewards</DialogTitle>
+            <DialogTitle>{values.id? "Update Rewards":"Add Rewards"}</DialogTitle>
             <DialogContent>
                 <Grid container spacing={gridSpacing} sx={{ mt: 0.25 }}>
                     <Grid item lg={12} xs={12}>
@@ -161,9 +163,16 @@ const ProductAdd = ({ open, handleCloseDialog, reward }: {open: boolean, handleC
                 <AnimateButton >
                     <Button variant="contained" onClick={async () => {
                     console.log('here');
-                    await createReward(values);
+                    if (values.id){
+                        await updateReward(values)
+                    }
+                    else{
+                        await createReward(values); 
+                    }
+                    setValues(productInitialValues)
+                    handleCloseDialog()
                     console.log('dome');
-                }}>Create</Button>
+                }}>{values.id ? "Update" : "Create"}</Button>
                 </AnimateButton>
                 <Button variant="text" color="error" onClick={handleCloseDialog}>
                     Close

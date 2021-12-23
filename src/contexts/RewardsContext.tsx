@@ -56,7 +56,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
   };
 
   const updateReward = async (reward: Reward): Promise<void> => {
-    console.log({ reward });
+    console.log(updateReward,{ reward });
     try {
       const res = await axios.put('loyalty/rewards', {
         ...reward,

@@ -177,7 +177,7 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = ({ selected } : {selected: number[]}) => {
     const numSelected = selected.length;
     const { deleteRewards } = useRewards();
-    const { updateReward } = useRewards();
+    
 
     return (
         <Toolbar
@@ -218,8 +218,8 @@ EnhancedTableToolbar.propTypes = {
 
 const Rewards = () => {
     const theme = useTheme();
-
-
+    const { updateReward } = useRewards();
+    
     const [reward, setReward] = useState<Reward | null>(null);
     const [open, setOpen] = useState(false);
     console.log("here");
@@ -310,7 +310,7 @@ const Rewards = () => {
 
     const editReward = (reward: Reward) => {
         setReward(reward);
-(reward);
+        console.log({reward});
         handleClickOpenDialog();
     }
 
@@ -357,7 +357,7 @@ const Rewards = () => {
                             <Fab
                                 color="primary"
                                 size="small"
-                                onClick={handleClickOpenDialog}
+                                onClick={(e)=>{setReward(null);handleClickOpenDialog(e)}}
                                 sx={{ boxShadow: 'none', ml: 1, width: 32, height: 32, minHeight: 32 }}
                             >
                                 <AddIcon fontSize="small" />
