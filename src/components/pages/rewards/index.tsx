@@ -177,6 +177,7 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = ({ selected } : {selected: number[]}) => {
     const numSelected = selected.length;
     const { deleteRewards } = useRewards();
+    const { updateReward } = useRewards();
 
     return (
         <Toolbar
@@ -309,6 +310,7 @@ const Rewards = () => {
 
     const editReward = (reward: Reward) => {
         setReward(reward);
+(reward);
         handleClickOpenDialog();
     }
 

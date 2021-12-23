@@ -8,12 +8,14 @@ interface RewardsContextType {
   rewards: Reward[];
   createReward: (reward: Reward) => Promise<void>;
   deleteRewards: (ids: number[]) => Promise<void>;
+  updateReward: (reward: Reward) => Promise<void>;
 }
 
 export const RewardsContext = createContext<RewardsContextType>({
   rewards: [],
   createReward: (reward: Reward) => new Promise((res) => res()),
-  deleteRewards: (ids: number[]) => new Promise((res) => res())
+  deleteRewards: (ids: number[]) => new Promise((res) => res()),
+  updateReward: (reward: Reward) => new Promise((res) => res())
 } as RewardsContextType);
 
 export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Element => {
@@ -46,6 +48,22 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
         businessId,
         brandId: 0
       });
+      
+      getRewards().then((rewards) => revalidateRewards({ rewards }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateReward = async (reward: Reward): Promise<void> => {
+    console.log({ reward });
+    try {
+      const res = await axios.put('loyalty/rewards', {
+        ...reward,
+        expireDate: new Date(reward.expireDate).toISOString(),
+        businessId,
+        brandId: 0
+      });
       getRewards().then((rewards) => revalidateRewards({ rewards }));
     } catch (error) {
       console.log(error);
@@ -65,6 +83,6 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
     }
   };
 
-  return <RewardsContext.Provider value={{ rewards, createReward, deleteRewards }}>{children}</RewardsContext.Provider>;
+  return <RewardsContext.Provider value={{ rewards, createReward, deleteRewards, updateReward }}>{children}</RewardsContext.Provider>;
 };
 export const useRewards = (): RewardsContextType => useContext(RewardsContext) as RewardsContextType;
