@@ -13,12 +13,13 @@ interface RewardsContextType {
 export const RewardsContext = createContext<RewardsContextType>({
   rewards: [],
   createReward: (reward: Reward) => new Promise((res) => res()),
-  deleteRewards: (ids: number[]) => new Promise((res) => res()),
+  deleteRewards: (ids: number[]) => new Promise((res) => res())
 } as RewardsContextType);
 
 export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Element => {
   const [rewards, setRewards] = useState<Reward[]>([]);
   const { businessId } = useAuth();
+
   useEffect(() => {
     getRewards().then((rewards) => revalidateRewards({ rewards }));
   }, []);
@@ -29,8 +30,9 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
 
   const getRewards = async (): Promise<Reward[]> => {
     try {
-      const res = await axios.get(`loyalty/rewards?businessId=${businessId}`);
+      const res = await axios.get(`/loyalty/rewards?businessId=${businessId}`);
       let data = res.data as Reward[] | '';
+      console.log({ data });
       return data === '' ? [] : data;
     } catch (error) {
       return [];
@@ -40,7 +42,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
   const createReward = async (reward: Reward): Promise<void> => {
     console.log({ reward });
     try {
-      const res = await axios.post('loyalty/rewards', {
+      const res = await axios.post(`/loyalty/rewards`, {
         ...reward,
         expireDate: new Date(reward.expireDate).toISOString(),
         businessId,
@@ -54,10 +56,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
 
   const deleteRewards = async (ids: number[]): Promise<void> => {
     try {
-      await Promise.all(ids
-        .map((e) => `loyalty/rewards/${e}`)
-        .map((e) => axios.delete(e))
-      );
+      await Promise.all(ids.map((e) => `/loyalty/rewards/${e}`).map((e) => axios.delete(e)));
       const newRewards = rewards.filter((e) => e.id && !ids.includes(e.id));
       setRewards(newRewards);
     } catch (err) {

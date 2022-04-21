@@ -45,8 +45,6 @@ import { EnhancedTableHead } from './EnhancedTableHead';
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
 
-
-
 const CustomTable = ({
   Add,
   headCells,
@@ -60,7 +58,7 @@ const CustomTable = ({
     align: 'center' | 'inherit' | 'left' | 'right' | 'justify' | string | undefined;
     disablePadding?: boolean | undefined;
   }[];
-  rows: Objects[],
+  rows: Objects[];
 }) => {
   const theme = useTheme();
 
@@ -90,7 +88,7 @@ const CustomTable = ({
       const newRows = rows.filter((row) => {
         let matches = true;
 
-        const properties = Object.keys(headCells.map(e => e.id));
+        const properties = Object.keys(headCells.map((e) => e.id));
         let containsQuery = false;
 
         properties.forEach((property) => {
