@@ -171,7 +171,7 @@ const ProductAdd = ({
             onClick={async () => {
               console.log('here');
               await createReward(values);
-              console.log('dome');
+              console.log('done');
               handleCloseDialog();
             }}
           >

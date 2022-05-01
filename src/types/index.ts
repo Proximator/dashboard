@@ -29,13 +29,22 @@ export type TargetGender = 'ALL' | 'MALE' | 'FEMALE';
 
 export interface Reward {
   id?: number;
-  points: number;
-  description: string;
-  expireDate: string;
-  discount: number;
-  targetGender: TargetGender;
+  content: string;
+  subject: string;
+  status: string;
+  createDate: any;
   isActive: boolean;
   isEngineering: boolean;
+}
+
+export interface Email {
+  id?: number;
+  content: string;
+  subject: string;
+  launchDate: any;
+  createDate: any;
+  imageURL: any;
+  targetGroup: string;
 }
 
 export type Objects = Reward;

@@ -13,6 +13,7 @@ import NavigationScroll from '../src/layout/NavigationScroll';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { RewardsProvider } from '../src/contexts/RewardsContext';
+import { EmailsProvider } from '../src/contexts/EmailingContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import '../src/styles/scss/style.scss';
 
@@ -27,7 +28,9 @@ export default function MyApp({ Component, pageProps }: any) {
               <Locales>
                 <NavigationScroll>
                   <RewardsProvider>
-                    <Component {...pageProps} />
+                    <EmailsProvider>
+                      <Component {...pageProps} />
+                    </EmailsProvider>
                     <Snackbar />
                   </RewardsProvider>
                 </NavigationScroll>

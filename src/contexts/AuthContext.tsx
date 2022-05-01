@@ -11,8 +11,7 @@ export const AuthContext = createContext<AuthContextType>({
 } as AuthContextType);
 
 export const AuthProvider = ({ children }: { children: ReactNode }): JSX.Element => {
-  // const [businessId] = useState(2);
-  const [businessId] = useState(6);
+  const [businessId] = useState(2);
   const [brandId] = useState(1);
 
   return <AuthContext.Provider value={{ businessId, brandId }}>{children}</AuthContext.Provider>;
