@@ -47,6 +47,31 @@ export interface Email {
   targetGroup: string;
 }
 
+export interface Banner {
+  id?: number;
+  brandId: any;
+  businessId: number;
+  link: string;
+  imageURL: string;
+  expiredAt: string;
+  isActive: boolean;
+  targetGender: string;
+}
+
+export interface News {
+  id?: number;
+  brandId: any;
+  businessId: number;
+  content: string;
+  subject: string;
+  imageURL: string;
+  expiredAt: string;
+  createdAt: string;
+  isActive: boolean;
+  launchDate: any;
+  targetGender: string;
+}
+
 export type Objects = Reward;
 export interface GenericCardProps {
   title?: string;

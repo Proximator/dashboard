@@ -16,6 +16,8 @@ import { RewardsProvider } from '../src/contexts/RewardsContext';
 import { EmailsProvider } from '../src/contexts/EmailingContext';
 import { AuthProvider } from '@/contexts/AuthContext';
 import '../src/styles/scss/style.scss';
+import { BannersProvider } from '@/contexts/BannersContext';
+import { NewsCollectionProvider } from '@/contexts/NewsContext';
 
 export default function MyApp({ Component, pageProps }: any) {
   return (
@@ -29,7 +31,11 @@ export default function MyApp({ Component, pageProps }: any) {
                 <NavigationScroll>
                   <RewardsProvider>
                     <EmailsProvider>
-                      <Component {...pageProps} />
+                      <BannersProvider>
+                        <NewsCollectionProvider>
+                          <Component {...pageProps} />
+                        </NewsCollectionProvider>
+                      </BannersProvider>
                     </EmailsProvider>
                     <Snackbar />
                   </RewardsProvider>

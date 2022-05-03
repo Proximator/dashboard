@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -38,6 +38,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/AddTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import { IconEdit, IconTrash } from '@tabler/icons';
 import { useEmails } from '@/contexts/EmailingContext';
 
 // table data
@@ -77,15 +78,21 @@ function stableSort(array, comparator) {
 // table header options
 const headCells = [
   {
-    id: 'date',
+    id: 'id',
+    numeric: true,
+    label: 'ID',
+    align: 'center'
+  },
+  {
+    id: 'CreationDate',
     numeric: true,
     label: 'Creation Date',
     align: 'center'
   },
   {
-    id: 'id',
+    id: 'LaunchDate',
     numeric: true,
-    label: 'ID',
+    label: 'Launch Date',
     align: 'center'
   },
   {
@@ -104,6 +111,30 @@ const headCells = [
     id: 'status',
     numeric: false,
     label: 'Status',
+    align: 'center'
+  },
+  {
+    id: 'imgUrl',
+    numeric: false,
+    label: 'Image URL',
+    align: 'center'
+  },
+  {
+    id: 'gender',
+    numeric: false,
+    label: 'Gender',
+    align: 'center'
+  },
+  {
+    id: 'user',
+    numeric: false,
+    label: 'Users',
+    align: 'center'
+  },
+  {
+    id: 'sentDateTime',
+    numeric: false,
+    label: 'Sent Date Time',
     align: 'center'
   }
 ];
@@ -224,8 +255,8 @@ EnhancedTableToolbar.propTypes = {
 
 const CampaignList = () => {
   const theme = useTheme();
-  const { emails } = useEmails();
-  console.log(emails);
+  const { emails, deleteEmails } = useEmails();
+  console.log({ emails });
 
   // show a right sidebar when clicked on new product
   const [open, setOpen] = useState(false);
@@ -236,6 +267,7 @@ const CampaignList = () => {
     setOpen(false);
   };
 
+  const [reward, setObject] = useState();
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
@@ -243,6 +275,10 @@ const CampaignList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search, setSearch] = useState('');
   const [rows, setRows] = useState(emails);
+
+  useEffect(() => {
+    setRows(emails);
+  }, [emails]);
 
   const handleSearch = (event) => {
     const newString = event?.target.value;
@@ -268,7 +304,7 @@ const CampaignList = () => {
       });
       setRows(newRows);
     } else {
-      setRows(rowsInitial);
+      setRows(rows);
     }
   };
 
@@ -311,6 +347,11 @@ const CampaignList = () => {
   const handleChangeRowsPerPage = (event) => {
     if (event?.target.value) setRowsPerPage(parseInt(event?.target.value, 10));
     setPage(0);
+  };
+
+  const editObject = (object) => {
+    setObject(object);
+    handleClickOpenDialog();
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -401,15 +442,31 @@ const CampaignList = () => {
                         }}
                       />
                     </TableCell>
-                    <TableCell align="center">{row.creationDate}</TableCell>
                     <TableCell align="center">{row.id}</TableCell>
+                    <TableCell align="center">{row.createDate}</TableCell>
+                    <TableCell align="center">{row.launchDate}</TableCell>
                     <TableCell align="center">{row.subject}</TableCell>
                     <TableCell align="center">{row.content}</TableCell>
                     <TableCell align="center">{row.status === true ? 'active' : 'inactive'}</TableCell>
+                    <TableCell align="center">
+                      <img src={row.imageURL} alt="row.imageURL" width="35px" height="30px" />
+                    </TableCell>
+                    <TableCell align="center">{row.targetGroup}</TableCell>
+                    <TableCell align="center">{row.targetedUsers}</TableCell>
+                    <TableCell align="center">{row.sentDateTime}</TableCell>
                     <TableCell align="center" sx={{ pr: 3 }}>
-                      <IconButton size="large">
-                        <MoreHorizOutlinedIcon sx={{ fontSize: '1.3rem' }} />
-                      </IconButton>
+                      <Grid container>
+                        <Grid item xs={6} md={6} lg={6} sx={{ pr: 0 }}>
+                          <IconButton size="medium">
+                            <IconEdit onClick={() => editObject(row)} />
+                          </IconButton>
+                        </Grid>
+                        <Grid item xs={6} md={6} lg={6}>
+                          <IconButton size="medium" onClick={() => deleteEmails([row.id!])}>
+                            <IconTrash />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
                     </TableCell>
                   </TableRow>
                 );

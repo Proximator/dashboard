@@ -1,5 +1,5 @@
 import axios from '../utils/axios';
-import { ReactNode, createContext, useContext, useState, useEffect, SetStateAction, Dispatch } from 'react';
+import { ReactNode, createContext, useContext, useState, useEffect } from 'react';
 
 import { Email } from '../types';
 import { useAuth } from './AuthContext';
@@ -35,50 +35,62 @@ export const EmailsProvider = ({ children }: { children: ReactNode }): JSX.Eleme
       console.log({ data });
       return data === '' ? [] : data;
     } catch (error) {
+      console.log({ error });
       return [];
     }
   };
 
-  const createEmail = async (email: Email): Promise<void> => {
+  const createEmail = async (email): Promise<void> => {
     console.log({ email });
     let body = new FormData();
     body.append(
       'dto',
-      `  {     launchDate: ${new Date(email.launchDate).toISOString()},     content: ${
-        email.content
-      }, businessId: =${businessId},     brandId: 0,     subject: ${
-        email.subject
-      }, targetedUsers: 0,     status: PENDING,     createDate: ${new Date(email.launchDate).toISOString()},     targetGroup: ${
-        email.createDate
-      }}`
+      `{
+      "launchDate": "${new Date(email.launchDate).toISOString()}",
+      "content": "${email.content}",
+      "businessId": ${businessId},
+      "brandId": null,
+      "subject": "${email.subject}",
+      "targetedUsers": "${email.targetedUsers}",
+      "status": "${email.status}",
+      "createDate": "${new Date(email.createDate).toISOString()}",
+      "targetGroup": "${email.targetGroup}"
+    }`
     );
     // body.append('image', `${email.imageURL.name};type=${email.imageURL.type}`);
-
-    console.log({ body });
-
-    // let body = {
-    //   ...email,
-    //   launchDate: new Date(email.launchDate).toISOString(),
-    //   createDate: new Date(email.createDate).toISOString(),
-    //   businessId,
-    //   brandId: 0,
-    //   status: 'PENDING',
-    //   targetedUsers: 0
-    // };
+    // body.append('image', `${email.imageURL.name};type=${email.imageURL.type}`);
 
     try {
-      const res = await axios.post(`/marketing/campaigns`, {
-        body,
+      const res = await axios.post(`/marketing/campaigns`, body, {
         headers: {
           Accept: 'multipart/form-data',
           'Content-Type': 'multipart/form-data'
-        },
-        method: 'POST'
+        }
       });
       getEmails().then((emails) => revalidateEmails({ emails }));
     } catch (error) {
       console.log(error);
     }
+
+    // const body = new FormData();
+    // body.append(
+    //   'dto',
+    //   '{"launchDate": "2021-08-03T22:16:24Z", "content": "bib", "businessId": 2, "brandId": null, "subject": "2nd", "targetedUsers": 0, "status": "PENDING", "createDate": "2021-05-03T22:16:24Z", "targetGroup": "ALL"}'
+    // );
+    // body.append('image', '@Screenshot from 2022-04-26 13-54-44.png;type=image/png');
+    // try {
+    //   fetch('http://75.119.140.14:8082/api/v1/marketing/campaigns', {
+    //     body,
+    //     headers: {
+    //       Accept: 'multipart/form-data',
+    //       'Content-Type': 'multipart/form-data'
+    //     },
+    //     method: 'POST'
+    //   });
+    //   getEmails().then((emails) => revalidateEmails({ emails }));
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const deleteEmails = async (ids: number[]): Promise<void> => {

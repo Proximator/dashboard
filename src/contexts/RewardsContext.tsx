@@ -32,7 +32,7 @@ export const RewardsProvider = ({ children }: { children: ReactNode }): JSX.Elem
     try {
       const res = await axios.get(`/loyalty/rewards?businessId=${businessId}`);
       let data = res.data as Reward[] | '';
-      console.log({ data });
+      // console.log({ data });
       return data === '' ? [] : data;
     } catch (error) {
       return [];

@@ -57,7 +57,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
   // handle category change dropdown
   const [file, setFile] = useState();
   const [date, setDate] = useState(new Date().toDateString());
-  const [gender, setGender] = useState('All');
+  const [gender, setGender] = useState('ALL');
   const [subject, setSubject] = useState('');
   const [content, setContent] = useState('');
 
@@ -88,9 +88,9 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(file);
-  }, [file]);
+  // useEffect(() => {
+  //   console.log(file);
+  // }, [file]);
 
   // handle tag select
   const [personName, setPersonName] = useState([]);
@@ -134,7 +134,7 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
               onChange={(e) => setGender(e.target.value)}
               // helperText="Please select a gender"
             >
-              {['All', 'Male', 'Female'].map((option) => (
+              {['ALL', 'MALE', 'FEMALE'].map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
@@ -221,18 +221,18 @@ const ProductAdd = ({ open, handleCloseDialog }) => {
           <Button
             variant="contained"
             onClick={async () => {
-              console.log('here');
-              let emails = {
+              let email = {
                 subject,
                 content,
                 targetGroup: gender,
                 launchDate: date,
-                createDate: date,
-                imageURL: file ? file : {}
+                createDate: new Date().toDateString(),
+                imageURL: '',
+                sentDateTime: null,
+                status: 'PENDING',
+                targetedUsers: 1
               };
-              await createEmail(emails);
-              console.log('done');
-              console.log(emails);
+              await createEmail(email);
               handleCloseDialog();
             }}
           >
