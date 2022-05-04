@@ -71,26 +71,6 @@ export const EmailsProvider = ({ children }: { children: ReactNode }): JSX.Eleme
     } catch (error) {
       console.log(error);
     }
-
-    // const body = new FormData();
-    // body.append(
-    //   'dto',
-    //   '{"launchDate": "2021-08-03T22:16:24Z", "content": "bib", "businessId": 2, "brandId": null, "subject": "2nd", "targetedUsers": 0, "status": "PENDING", "createDate": "2021-05-03T22:16:24Z", "targetGroup": "ALL"}'
-    // );
-    // body.append('image', '@Screenshot from 2022-04-26 13-54-44.png;type=image/png');
-    // try {
-    //   fetch('http://75.119.140.14:8082/api/v1/marketing/campaigns', {
-    //     body,
-    //     headers: {
-    //       Accept: 'multipart/form-data',
-    //       'Content-Type': 'multipart/form-data'
-    //     },
-    //     method: 'POST'
-    //   });
-    //   getEmails().then((emails) => revalidateEmails({ emails }));
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const deleteEmails = async (ids: number[]): Promise<void> => {

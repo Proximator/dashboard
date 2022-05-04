@@ -11,17 +11,20 @@ import { ThemeProvider } from '@mui/material/styles';
 import themes from '../../src/themes';
 import { DefaultRootStateProps } from '../../src/types';
 import MarketingCampaigns from '../../src/components/pages/emailing';
+import { withAuth } from '@/contexts/AuthContext';
 
 const MainLayout = dynamic(() => import('../../src/layout/MainLayout'), { ssr: false });
 
-export default function PageDashboard() {
-    const customization = useSelector((state: DefaultRootStateProps) => state.customization);
+function PageDashboard() {
+  const customization = useSelector((state: DefaultRootStateProps) => state.customization);
 
-return (
-        <ThemeProvider theme={themes(customization)}>
-            <MainLayout >
-                <MarketingCampaigns />
-            </MainLayout>
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider theme={themes(customization)}>
+      <MainLayout>
+        <MarketingCampaigns />
+      </MainLayout>
+    </ThemeProvider>
+  );
 }
+
+export default withAuth(PageDashboard);

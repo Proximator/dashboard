@@ -84,13 +84,13 @@ const headCells = [
     align: 'center'
   },
   {
-    id: 'CreationDate',
+    id: 'creationDate',
     numeric: true,
     label: 'Creation Date',
     align: 'center'
   },
   {
-    id: 'LaunchDate',
+    id: 'launchDate',
     numeric: true,
     label: 'Launch Date',
     align: 'center'
@@ -126,7 +126,7 @@ const headCells = [
     align: 'center'
   },
   {
-    id: 'user',
+    id: 'users',
     numeric: false,
     label: 'Users',
     align: 'center'
@@ -288,7 +288,18 @@ const CampaignList = () => {
       const newRows = rows.filter((row) => {
         let matches = true;
 
-        const properties = ['id', 'creationDate', 'name', 'expirationDate', 'gender'];
+        const properties = [
+          'id',
+          'creationDate',
+          'launchDate',
+          'subject',
+          'content',
+          'status',
+          'imgUrl',
+          'gender',
+          'users',
+          'sentDateTime'
+        ];
         let containsQuery = false;
 
         properties.forEach((property) => {

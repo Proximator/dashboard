@@ -5,18 +5,18 @@ import Link from 'next/link';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Typography
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography
 } from '@mui/material';
 
 // third party
@@ -25,8 +25,9 @@ import { Formik } from 'formik';
 
 // project imports
 import AnimateButton from '@/ui-component/extended/AnimateButton';
-import useAuth from '@/hooks/useAuth';
+import { useAuth } from '../../../../contexts/AuthContext';
 import useScriptRef from '@/hooks/useScriptRef';
+import axios from '../../../../utils/axios';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
@@ -36,156 +37,179 @@ import { useRouter } from 'next/router';
 // ===============================|| JWT LOGIN ||=============================== //
 
 const JWTLogin = ({ loginProp, ...others }) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const router = useRouter();
-    // const { login } = useAuth();
-    const scriptedRef = useScriptRef();
+  const router = useRouter();
+  const { login } = useAuth();
+  const scriptedRef = useScriptRef();
 
-    const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(true);
 
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const loginAuth = async (email: any, password: any) => {
+    const getAuthString = () => {
+      let token = `${email}:${password}`;
+      let buff = new Buffer(token, 'base64');
+      let base64ToStringNew = buff.toString('ascii');
+      return `Basic: ${base64ToStringNew}`;
     };
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    // let res = await axios.post(
+    //   '/partners/users/login',
+    //   {},
+    //   {
+    //     headers: {
+    //       Auth: getAuthString()
+    //     }
+    //   }
+    // );
+    // console.log(res);
+  };
 
-    return (
-        <Formik
-            initialValues={{
-                email: 'info@codedthemes.com',
-                password: '123456',
-                submit: null
-            }}
-            validationSchema={Yup.object().shape({
-                email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                password: Yup.string().max(255).required('Password is required')
-            })}
-            onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                try {
-                    // await login(values.email, values.password);
-                    router.push('/dashboard/default');
-                    console.log(values.email, values.password);
-                    if (scriptedRef.current) {
-                        setStatus({ success: true });
-                        setSubmitting(false);
-                    }
-                } catch (err) {
-                    console.error(err);
-                    if (scriptedRef.current) {
-                        setStatus({ success: false });
-                        setErrors({ submit: err.message });
-                        setSubmitting(false);
-                    }
-                }
-            }}
-        >
-            {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-                <form noValidate onSubmit={handleSubmit} {...others}>
-                    <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                        <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-email-login"
-                            type="email"
-                            value={values.email}
-                            name="email"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            inputProps={{}}
-                        />
-                        {touched.email && errors.email && (
-                            <FormHelperText error id="standard-weight-helper-text-email-login">
-                                {errors.email}
-                            </FormHelperText>
-                        )}
-                    </FormControl>
+  return (
+    <Formik
+      initialValues={{
+        email: 'info@codedthemes.com',
+        password: '123456',
+        submit: null
+      }}
+      validationSchema={Yup.object().shape({
+        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+        password: Yup.string().max(255).required('Password is required')
+      })}
+      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+        try {
+          // await login(values.email, values.password);
 
-                    <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-                        <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password-login"
-                            type={showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            name="password"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                        size="large"
-                                    >
-                                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            inputProps={{}}
-                            label="Password"
-                        />
-                        {touched.password && errors.password && (
-                            <FormHelperText error id="standard-weight-helper-text-password-login">
-                                {errors.password}
-                            </FormHelperText>
-                        )}
-                    </FormControl>
+          console.log(values.email, values.password);
+          login(values.email, values.password);
 
-                    <Grid container alignItems="center" justifyContent="space-between">
-                        <Grid item>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={checked}
-                                        onChange={(event) => setChecked(event.target.checked)}
-                                        name="checked"
-                                        color="primary"
-                                    />
-                                }
-                                label="Keep me logged in"
-                            />
-                        </Grid>
-                        <Grid item>
-                            <Typography
-                                variant="subtitle1"
-                                // component={Link}
-                                // to={
-                                //     loginProp
-                                //         ? `/pages/forgot-password/forgot-password${loginProp}`
-                                //         : '/pages/forgot-password/forgot-password3'
-                                // }
-                                color="secondary"
-                                sx={{ textDecoration: 'none' }}
-                            >
-                                Forgot Password?
-                            </Typography>
-                        </Grid>
-                    </Grid>
+          // set token in local storage temporarily
 
-                    {errors.submit && (
-                        <Box sx={{ mt: 3 }}>
-                            <FormHelperText error>{errors.submit}</FormHelperText>
-                        </Box>
-                    )}
-                    <Box sx={{ mt: 2 }}>
-                        <AnimateButton>
-                            <Button color="secondary" disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained">
-                                Sign In
-                            </Button>
-                        </AnimateButton>
-                    </Box>
-                </form>
+          //   localStorage.setItem('token', 'has token');
+
+          //   router.push('/dashboard/default');
+
+          if (scriptedRef.current) {
+            setStatus({ success: true });
+            setSubmitting(false);
+          }
+        } catch (err) {
+          console.error(err);
+          if (scriptedRef.current) {
+            setStatus({ success: false });
+            setErrors({ submit: err.message });
+            setSubmitting(false);
+          }
+        }
+      }}
+    >
+      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+        <form noValidate onSubmit={handleSubmit} {...others}>
+          <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-email-login"
+              type="email"
+              value={values.email}
+              name="email"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              inputProps={{}}
+            />
+            {touched.email && errors.email && (
+              <FormHelperText error id="standard-weight-helper-text-email-login">
+                {errors.email}
+              </FormHelperText>
             )}
-        </Formik>
-    );
+          </FormControl>
+
+          <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
+            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+            <OutlinedInput
+              id="outlined-adornment-password-login"
+              type={showPassword ? 'text' : 'password'}
+              value={values.password}
+              name="password"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                    size="large"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              inputProps={{}}
+              label="Password"
+            />
+            {touched.password && errors.password && (
+              <FormHelperText error id="standard-weight-helper-text-password-login">
+                {errors.password}
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <FormControlLabel
+                control={
+                  <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
+                }
+                label="Keep me logged in"
+              />
+            </Grid>
+            <Grid item>
+              <Typography
+                variant="subtitle1"
+                // component={Link}
+                // to={
+                //     loginProp
+                //         ? `/pages/forgot-password/forgot-password${loginProp}`
+                //         : '/pages/forgot-password/forgot-password3'
+                // }
+                color="secondary"
+                sx={{ textDecoration: 'none' }}
+              >
+                Forgot Password?
+              </Typography>
+            </Grid>
+          </Grid>
+
+          {errors.submit && (
+            <Box sx={{ mt: 3 }}>
+              <FormHelperText error>{errors.submit}</FormHelperText>
+            </Box>
+          )}
+          <Box sx={{ mt: 2 }}>
+            <AnimateButton>
+              <Button color="secondary" disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained">
+                Sign In
+              </Button>
+            </AnimateButton>
+          </Box>
+        </form>
+      )}
+    </Formik>
+  );
 };
 
 JWTLogin.propTypes = {
-    loginProp: PropTypes.number
+  loginProp: PropTypes.number
 };
 
 export default JWTLogin;
