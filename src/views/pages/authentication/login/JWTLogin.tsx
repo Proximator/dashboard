@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 // material-ui
@@ -55,25 +55,20 @@ const JWTLogin = ({ loginProp, ...others }) => {
   };
 
   const loginAuth = async (email: any, password: any) => {
-    const getAuthString = () => {
-      let token = `${email}:${password}`;
-      let buff = new Buffer(token, 'base64');
-      let base64ToStringNew = buff.toString('ascii');
-      return `Basic: ${base64ToStringNew}`;
-    };
+    const encodedString = btoa(`${email}:${password}`);
 
-    // let res = await axios.post(
-    //   '/partners/users/login',
-    //   {},
-    //   {
-    //     headers: {
-    //       Auth: getAuthString()
-    //     }
-    //   }
-    // );
-    // console.log(res);
+    let res = await axios.post(
+      '/partners/users/login',
+      {},
+      {
+        headers: {
+          Auth: `Basic ${encodedString}`
+        }
+      }
+    );
+    console.log(res);
   };
-
+  // user = mondial.men@gmail.com and password = password
   return (
     <Formik
       initialValues={{
@@ -90,6 +85,7 @@ const JWTLogin = ({ loginProp, ...others }) => {
           // await login(values.email, values.password);
 
           console.log(values.email, values.password);
+          loginAuth(values.email, values.password);
           login(values.email, values.password);
 
           // set token in local storage temporarily
